@@ -6,12 +6,14 @@ the android folder.
 import sys, os, random
 from termcolor import colored
 
+
 def playSong(path):
     """Plays an mp3 file from a given path"""
     if " " in path:
         os.system("play-audio '" + path + "'")
     else:
         os.system("play-audio " + path)
+
 
 def main():
     print()
@@ -27,8 +29,7 @@ def main():
     print()
     command = input("Enter action number: ")
 
-
-    if command.strip() == "1": # This is a shuffle play mode
+    if command.strip() == "1":  # This is a shuffle play mode
         print()
         print("Shuffling songs... Ctrl-c to skip one")
         playableSongs = songNames.copy()
@@ -45,11 +46,10 @@ def main():
     elif command.strip() == "0":
         sys.exit()
 
-    else: # we need to play the songID number
-            playingSong = songNames[int(command) - 2]
-            print("Playing " + colored(playingSong[:-len(".mp3")], "green") + "...")
-            playSong(playingSong)
-
+    else:  # we need to play the songID number
+        playingSong = songNames[int(command) - 2]
+        print("Playing " + colored(playingSong[:-len(".mp3")], "green") + "...")
+        playSong(playingSong)
 
 
 if __name__ == "__main__":
