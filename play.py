@@ -26,7 +26,7 @@ def playSong(path):
     # This is NEW
     player = vlc.MediaPlayer(path)
     player.play()
-    print("Playing " + colored(CamelCase(path)[:-len(".mp3")], "green") + "...")
+    print("Playing " + colored(path[:-len(".mp3")], "green") + "...")
     while True:
         do = input("> ").lower()
         if do == "pause":
@@ -38,7 +38,7 @@ def playSong(path):
             break
         elif do == "exit":
             player.stop()
-            sys.exit()
+            main()
 
 
 def getMeta(url):
@@ -47,35 +47,14 @@ def getMeta(url):
         meta = ydl.extract_info(url, download=False)
     return meta
 
-    # print
-    # 'upload date : %s' % (meta['upload_date'])
-    # print
-    # 'uploader    : %s' % (meta['uploader'])
-    # print
-    # 'views       : %d' % (meta['view_count'])
-    # print
-    # 'likes       : %d' % (meta['like_count'])
-    # print
-    # 'dislikes    : %d' % (meta['dislike_count'])
-    # print
-    # 'id          : %s' % (meta['id'])
-    # print
-    # 'format      : %s' % (meta['format'])
-    # print
-    # 'duration    : %s' % (meta['duration'])
-    # print
-    # 'title       : %s' % (meta['title'])
-    # print
-    # 'description : %s' % (meta['description'])
 
-
-def download(url):
+def download(url, play=False):
     title = CamelCase(re.sub(r" ?\([^)]+\)", "", getMeta(url)['title'])).replace(":", "-")
-    print(title)
+    if title.endswith('.'):
+        title = title[:-1]
     ydl_opts = {
         'format': 'bestaudio/best',
-        'outtmpl': title+'.%(ext)s',
-        'noplaylist': True,
+        'outtmpl': title + '.%(ext)s',
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',
@@ -84,6 +63,8 @@ def download(url):
     }
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         ydl.download([url])
+    if play:
+        playSong(title+'.mp3')
 
 
 def main():
@@ -153,10 +134,23 @@ def main():
             if url is not None:
                 print("Your URL is:", url)
                 if (input("Would you like to download " + search + "? ")).lower()[0] == 'y':
-                    print()
-                    download(url)
+                    if (input("Do you want to play " + search + " when it downloads? ")).lower():
+                        print()
+                        download(url, play=True)
+                    else:
+                        print()
+                        download(url)
             else:
                 print("A URL for " + search + " was not found.")
+
+        elif action == "download":
+            url = input("Enter the URL to download mp3 from: ")
+            if (input("Do you want to play the song when it downloads? ")).lower():
+                print()
+                download(url, play=True)
+            else:
+                print()
+                download(url)
 
 
 if __name__ == "__main__":
