@@ -1,3 +1,4 @@
+mutagen
 youtube_dl
 beautifulsoup4==4.8.2
 certifi==2019.11.28
