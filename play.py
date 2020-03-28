@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 import random
 import vlc
@@ -40,10 +41,40 @@ def playSong(path):
             sys.exit()
 
 
+def getMeta(url):
+    ydl_opts = {}
+    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+        meta = ydl.extract_info(url, download=False)
+    return meta
+
+    # print
+    # 'upload date : %s' % (meta['upload_date'])
+    # print
+    # 'uploader    : %s' % (meta['uploader'])
+    # print
+    # 'views       : %d' % (meta['view_count'])
+    # print
+    # 'likes       : %d' % (meta['like_count'])
+    # print
+    # 'dislikes    : %d' % (meta['dislike_count'])
+    # print
+    # 'id          : %s' % (meta['id'])
+    # print
+    # 'format      : %s' % (meta['format'])
+    # print
+    # 'duration    : %s' % (meta['duration'])
+    # print
+    # 'title       : %s' % (meta['title'])
+    # print
+    # 'description : %s' % (meta['description'])
+
+
 def download(url):
+    title = CamelCase(re.sub(r" ?\([^)]+\)", "", getMeta(url)['title'])).replace(":", "-")
+    print(title)
     ydl_opts = {
         'format': 'bestaudio/best',
-        'outtmpl': u'%(title)s.%(ext)s',
+        'outtmpl': title+'.%(ext)s',
         'noplaylist': True,
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
@@ -58,7 +89,7 @@ def download(url):
 def main():
     while True:
         actions = colored("play", "green") + "        > plays downloaded mp3 songs\n" + colored("download",
-                                                                                               "green") + "    > searches YouTube and downloads mp3\n" + colored(
+                                                                                                "green") + "    > downloads mp3 from a YouTube URL\n" + colored(
             "geturl", "green") + "      > gives a YouTube URL from a search\n" + colored("exit",
                                                                                          "green") + "        > exit the player"
         print("\n" + actions + "\n")
@@ -119,9 +150,13 @@ def main():
         elif action == "geturl":
             search = input("What are you searching for? ")
             url = ytUrl.urlFromQuery(search)
-            print("Your URL is:", url)
-            if (input("Would you like to download " + search + "? ")).lower()[0] == 'y':
-                download(url)
+            if url is not None:
+                print("Your URL is:", url)
+                if (input("Would you like to download " + search + "? ")).lower()[0] == 'y':
+                    print()
+                    download(url)
+            else:
+                print("A URL for " + search + " was not found.")
 
 
 if __name__ == "__main__":
