@@ -122,11 +122,18 @@ def main():
                 else:
                     print("Song not found.")
             else:
-                path = song + ".mp3"
-                if os.path.exists(path):
-                    playSong(path)
-                else:
-                    print("Song not found.")
+                songList = [x for x in os.listdir() if x.endswith(".mp3")]
+                if len(song) <= 3:
+                    if song.endswith(".mp3"): # Don't laugh.
+                        if os.path.exists(song):
+                            playSong(song)
+                        else:
+                            print("Song not found.")
+                elif len(song) >= 4:
+                    for s in songList:
+                        s = s.lower()[:-len(".mp3")]
+                        if song in s:
+                            playSong(s+'.mp3')
 
         elif action == "geturl":
             search = input("What are you searching for? ")
