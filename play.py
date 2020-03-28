@@ -3,6 +3,7 @@ import sys
 import random
 import vlc
 import ytUrl
+import youtube_dl
 from termcolor import colored
 
 
@@ -37,6 +38,21 @@ def playSong(path):
         elif do == "exit":
             player.stop()
             sys.exit()
+
+
+def download(url):
+    ydl_opts = {
+        'format': 'bestaudio/best',
+        'outtmpl': u'%(title)s.%(ext)s',
+        'noplaylist': True,
+        'postprocessors': [{
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'mp3',
+            'preferredquality': '192',
+        }],
+    }
+    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+        ydl.download([url])
 
 
 def main():
@@ -104,6 +120,8 @@ def main():
             search = input("What are you searching for? ")
             url = ytUrl.urlFromQuery(search)
             print("Your URL is:", url)
+            if (input("Would you like to download " + search + "? ")).lower()[0] == 'y':
+                download(url)
 
 
 if __name__ == "__main__":
