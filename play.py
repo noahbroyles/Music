@@ -2,10 +2,13 @@ import os
 import re
 import sys
 import random
+import time
 import vlc
 import ytUrl
+import signal
 import youtube_dl
 from termcolor import colored
+from mutagen.mp3 import MP3
 
 
 def CamelCase(string):
@@ -24,11 +27,21 @@ def playSong(path):
     #     os.system("play-audio " + path)
 
     # This is NEW
+    audio = MP3(path)
+    duration = audio.info.length + 1  # add one because of the 1000 ms delay below
     player = vlc.MediaPlayer(path)
+    player.audio_set_delay(1000)  # This is super sexy! It keeps from playback freezing issues (sometimes)
     player.play()
+    startClock = time.time()
     print("Playing " + colored(path[:-len(".mp3")], "green") + "...")
-    while True:
-        do = input("> ").lower()
+    songNotEnded = True
+    while songNotEnded:
+        totalTime = time.time() - startClock
+        if totalTime > duration:
+            player.stop()
+            break
+        if songNotEnded:
+            do = input("> ").lower()
         if do == "pause":
             player.pause()
         elif do == "play":
@@ -39,6 +52,9 @@ def playSong(path):
         elif do == "exit":
             player.stop()
             main()
+        elif do == "":
+            player.stop()
+            break
 
 
 def getMeta(url):
@@ -64,7 +80,7 @@ def download(url, play=False):
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         ydl.download([url])
     if play:
-        playSong(title+'.mp3')
+        playSong(title + '.mp3')
 
 
 def main():
@@ -73,10 +89,12 @@ def main():
                                                                                                 "green") + "    > downloads mp3 from a YouTube URL\n" + colored(
             "geturl", "green") + "      > gives a YouTube URL from a search\n" + colored("exit",
                                                                                          "green") + "        > exit the player"
-        print("\n" + actions + "\n")
-        action = input("What would you like to do? ").lower()
+        action = input('What would you like to do? ("' + colored('show', "yellow") + '" to show commands): ').lower()
 
-        if action == "exit":
+        if action == "show":
+            print("\n" + actions + "\n")
+
+        elif action == "exit":
             sys.exit()
 
         elif action == "play":
@@ -112,36 +130,36 @@ def main():
 
         elif action.startswith("play") and len(action) > 4:
             try:
-                song = action.split(" ")[1]
+                test = action.split(" ")[1]
             except IndexError:
-                print("Invalid play command.")
+                print(colored("Invalid play command.", "red"))
                 main()
+            song = action[len("play "):]
+            song = CamelCase(song)
             if song.endswith(".mp3"):  # the song is equal to the path
                 if os.path.exists(song):
                     playSong(song)
                 else:
-                    print("Song not found.")
+                    print(colored("Song not found.", "red"))
             else:
                 songList = [x for x in os.listdir() if x.endswith(".mp3")]
                 if len(song) <= 3:
-                    if song.endswith(".mp3"): # Don't laugh.
-                        if os.path.exists(song):
-                            playSong(song)
-                        else:
-                            print("Song not found.")
+                    print(colored("Song not found.", "red"))
                 elif len(song) >= 4:
                     for s in songList:
                         ls = s.lower()[:-len(".mp3")]
-                        if song in ls:
+                        if song.lower() in ls or song.lower() == ls:
                             playSong(s)
+                            main()
+                    print(colored("Song not found.", "red"))  # if we're still here, there was no such song
 
         elif action == "geturl":
             search = input("What are you searching for? ")
             url = ytUrl.urlFromQuery(search)
             if url is not None:
-                print("Your URL is:", url)
-                if (input("Would you like to download " + search + "? ")).lower()[0] == 'y':
-                    if (input("Do you want to play " + search + " when it downloads? ")).lower():
+                print("Your URL is:", colored(url, "blue"))
+                if (input("Would you like to download " + colored(search, "green") + "? ")).lower()[0] == 'y':
+                    if (input("Do you want to play " + colored(search, "green") + " when it downloads? ")).lower():
                         print()
                         download(url, play=True)
                     else:
