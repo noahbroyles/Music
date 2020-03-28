@@ -41,7 +41,7 @@ def playSong(path):
 
 def main():
     while True:
-        actions = colored("play", "green") + "        > plays downloaded mp3 song\n" + colored("download",
+        actions = colored("play", "green") + "        > plays downloaded mp3 songs\n" + colored("download",
                                                                                                "green") + "    > searches YouTube and downloads mp3\n" + colored(
             "geturl", "green") + "      > gives a YouTube URL from a search\n" + colored("exit",
                                                                                          "green") + "        > exit the player"
@@ -107,4 +107,9 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        songToPlay = sys.argv[1]
+        playSong(songToPlay)
+    except IndexError:
+        main()
+    print()
