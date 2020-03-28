@@ -131,9 +131,9 @@ def main():
                             print("Song not found.")
                 elif len(song) >= 4:
                     for s in songList:
-                        s = s.lower()[:-len(".mp3")]
-                        if song in s:
-                            playSong(s+'.mp3')
+                        ls = s.lower()[:-len(".mp3")]
+                        if song in ls:
+                            playSong(s)
 
         elif action == "geturl":
             search = input("What are you searching for? ")
