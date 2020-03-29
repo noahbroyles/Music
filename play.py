@@ -94,7 +94,7 @@ def download(url, play=False):
 
 
 def main():
-    actions = colored("play", "green") + "        > plays downloaded mp3 songs\n" + colored("download",
+    actions = colored("play", "green") + "        > plays downloaded mp3 songs\n" + colored("shuffle", "green") + "     > shuffles downloaded songs\n" + colored("download",
                                                                                             "green") + "    > downloads mp3 from a YouTube URL\n" + colored(
         "geturl", "green") + "      > gives a YouTube URL from a search\n" + colored("exit",
                                                                                      "green") + "        > exit the player"
@@ -123,7 +123,7 @@ def main():
 
             if command.strip() == "1":  # This is a shuffle play mode
                 print()
-                print('Shuffling songs... type "skip" to skip one')
+                print('Shuffling songs... type "' + colored('skip', "yellow") + '" to skip one')
                 playableSongs = songNames.copy()
                 while len(playableSongs) > 0:
                     playingSong = random.choice(playableSongs)
@@ -186,6 +186,17 @@ def main():
             else:
                 print()
                 download(url)
+
+        elif action == "shuffle":
+            songNames = [x for x in os.listdir() if x.endswith(".mp3")]
+            songNames = sorted(songNames)
+            print()
+            print('Shuffling songs... type "' + colored('skip', "yellow") + '" to skip one')
+            playableSongs = songNames.copy()
+            while len(playableSongs) > 0:
+                playingSong = random.choice(playableSongs)
+                playSong(playingSong)
+                playableSongs.remove(playingSong)
 
 
 if __name__ == "__main__":
