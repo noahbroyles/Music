@@ -6,10 +6,9 @@ import vlc
 import ytUrl
 import selectors
 import youtube_dl
+import math
 from termcolor import colored
 from mutagen.mp3 import MP3
-
-sel = selectors.DefaultSelector()
 
 
 def CamelCase(string):
@@ -19,14 +18,25 @@ def CamelCase(string):
     return camelString
 
 
+def songTime(seconds):
+    bal = seconds
+    minutes = int(str((seconds / 60)).split('.')[0])
+    bal -= (minutes * 60)
+    s = int(math.floor(bal))
+    if len(str(s)) == 1:
+        s = '0' + str(s)
+    return str(minutes) + ":" + str(s)
+
+
 def playSong(path):
     """Plays an mp3 file from a given path"""
     player = vlc.MediaPlayer(path)
     duration = MP3(path).info.length
-    player.audio_set_delay(1000)  # keeps vlc from playback freezing issues
+    player.audio_set_delay(1000)  # keeps vlc from playback freezing issues (only sometimes)
     player.play()
-    print("Playing " + colored(path[:-len(".mp3")], "green") + "...")
+    print("Playing " + colored(path[:-len(".mp3")], "green") + " --- " + colored(str(songTime(duration)), "blue"))
 
+    sel = selectors.DefaultSelector()
     sel.register(sys.stdin.fileno(), selectors.EVENT_READ)
 
     while True:
@@ -38,15 +48,17 @@ def playSong(path):
                 break  # Input available - time to read input, so stop polling
         else:
             print()  # For beauty
-            break    # Quit the command handling loop
+            break  # Quit the command handling loop
         do = input().lower()
-        print(player.get_state())
+        if do == "time":
+            print(colored(songTime(player.get_time() / 1000), "blue"))
         if do == "pause":
             player.pause()
         elif do == "play":
             player.play()
         elif do == "stop" or do == "skip":
             player.stop()
+            break
         elif do == "exit":
             player.stop()
             main()
@@ -79,11 +91,11 @@ def download(url, play=False):
 
 
 def main():
+    actions = colored("play", "green") + "        > plays downloaded mp3 songs\n" + colored("download",
+                                                                                            "green") + "    > downloads mp3 from a YouTube URL\n" + colored(
+        "geturl", "green") + "      > gives a YouTube URL from a search\n" + colored("exit",
+                                                                                     "green") + "        > exit the player"
     while True:
-        actions = colored("play", "green") + "        > plays downloaded mp3 songs\n" + colored("download",
-                                                                                                "green") + "    > downloads mp3 from a YouTube URL\n" + colored(
-            "geturl", "green") + "      > gives a YouTube URL from a search\n" + colored("exit",
-                                                                                         "green") + "        > exit the player"
         action = input('What would you like to do? ("' + colored('show', "yellow") + '" to show commands): ').lower()
 
         if action == "show":
@@ -125,7 +137,7 @@ def main():
 
         elif action.startswith("play") and len(action) > 4:
             try:
-                test = action.split(" ")[1]
+                action.split(" ")[1]
             except IndexError:
                 print(colored("Invalid play command.", "red"))
                 main()
