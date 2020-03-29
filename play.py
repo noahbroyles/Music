@@ -2,13 +2,14 @@ import os
 import re
 import sys
 import random
-import time
 import vlc
 import ytUrl
-import signal
+import selectors
 import youtube_dl
 from termcolor import colored
 from mutagen.mp3 import MP3
+
+sel = selectors.DefaultSelector()
 
 
 def CamelCase(string):
@@ -20,41 +21,35 @@ def CamelCase(string):
 
 def playSong(path):
     """Plays an mp3 file from a given path"""
-    # This is OLD
-    # if " " in path:
-    #     os.system("play-audio '" + path + "'")
-    # else:
-    #     os.system("play-audio " + path)
-
-    # This is NEW
-    audio = MP3(path)
-    duration = audio.info.length + 1  # add one because of the 1000 ms delay below
     player = vlc.MediaPlayer(path)
-    player.audio_set_delay(1000)  # This is super sexy! It keeps from playback freezing issues (sometimes)
+    duration = MP3(path).info.length
+    player.audio_set_delay(1000)  # keeps vlc from playback freezing issues
     player.play()
-    startClock = time.time()
     print("Playing " + colored(path[:-len(".mp3")], "green") + "...")
-    songNotEnded = True
-    while songNotEnded:
-        totalTime = time.time() - startClock
-        if totalTime > duration:
-            player.stop()
-            break
-        if songNotEnded:
-            do = input("> ").lower()
+
+    sel.register(sys.stdin.fileno(), selectors.EVENT_READ)
+
+    while True:
+        sys.stdout.write('> ')
+        sys.stdout.flush()
+        # Poll for command input as long as the player hasn't reached the end
+        while player.get_state() != vlc.State.Ended:  # It's still running
+            if sel.select(0.1):
+                break  # Input available - time to read input, so stop polling
+        else:
+            print()  # For beauty
+            break    # Quit the command handling loop
+        do = input().lower()
+        print(player.get_state())
         if do == "pause":
             player.pause()
         elif do == "play":
             player.play()
         elif do == "stop" or do == "skip":
             player.stop()
-            break
         elif do == "exit":
             player.stop()
             main()
-        elif do == "":
-            player.stop()
-            break
 
 
 def getMeta(url):
