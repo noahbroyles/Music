@@ -38,30 +38,33 @@ def playSong(path):
 
     sel = selectors.DefaultSelector()
     sel.register(sys.stdin.fileno(), selectors.EVENT_READ)
-
-    while True:
-        sys.stdout.write('> ')
-        sys.stdout.flush()
-        # Poll for command input as long as the player hasn't reached the end
-        while player.get_state() != vlc.State.Ended:  # It's still running
-            if sel.select(0.1):
-                break  # Input available - time to read input, so stop polling
-        else:
-            print()  # For beauty
-            break  # Quit the command handling loop
-        do = input().lower()
-        if do == "time":
-            print(colored(songTime(player.get_time() / 1000), "blue"))
-        if do == "pause":
-            player.pause()
-        elif do == "play":
-            player.play()
-        elif do == "stop" or do == "skip":
-            player.stop()
-            break
-        elif do == "exit":
-            player.stop()
-            main()
+    try:
+        while True:
+            sys.stdout.write('> ')
+            sys.stdout.flush()
+            # Poll for command input as long as the player hasn't reached the end
+            while player.get_state() != vlc.State.Ended:  # It's still running
+                if sel.select(0.1):
+                    break  # Input available - time to read input, so stop polling
+            else:
+                print()  # For beauty
+                break  # Quit the command handling loop
+            do = input().lower()
+            if do == "time":
+                print(colored(songTime(player.get_time() / 1000), "blue"))
+            if do == "pause":
+                player.pause()
+            elif do == "play":
+                player.play()
+            elif do == "stop" or do == "skip":
+                player.stop()
+                break
+            elif do == "exit":
+                player.stop()
+                main()
+    except EOFError:
+        player.stop()
+        sys.exit()
 
 
 def getMeta(url):
@@ -96,7 +99,7 @@ def main():
         "geturl", "green") + "      > gives a YouTube URL from a search\n" + colored("exit",
                                                                                      "green") + "        > exit the player"
     while True:
-        action = input('What would you like to do? ("' + colored('show', "yellow") + '" to show commands): ').lower()
+        action = input('What would you like to do? ("' + colored('show', "yellow") + '" to show commands): ')
 
         if action == "show":
             print("\n" + actions + "\n")
@@ -142,13 +145,13 @@ def main():
                 print(colored("Invalid play command.", "red"))
                 main()
             song = action[len("play "):]
-            song = CamelCase(song)
             if song.endswith(".mp3"):  # the song is equal to the path
                 if os.path.exists(song):
                     playSong(song)
                 else:
                     print(colored("Song not found.", "red"))
             else:
+                song = CamelCase(song)
                 songList = [x for x in os.listdir() if x.endswith(".mp3")]
                 if len(song) <= 3:
                     print(colored("Song not found.", "red"))
