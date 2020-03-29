@@ -169,7 +169,7 @@ def main():
             if url is not None:
                 print("Your URL is:", colored(url, "blue"))
                 if (input("Would you like to download " + colored(search, "green") + "? ")).lower()[0] == 'y':
-                    if (input("Do you want to play " + colored(search, "green") + " when it downloads? ")).lower():
+                    if (input("Do you want to play " + colored(search, "green") + " when it downloads? ")).lower()[0] == "y":
                         print()
                         download(url, play=True)
                     else:
