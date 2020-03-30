@@ -180,7 +180,7 @@ def main():
 
         elif action == "download":
             url = input("Enter the URL to download mp3 from: ")
-            if (input("Do you want to play the song when it downloads? ")).lower():
+            if (input("Do you want to play the song when it downloads? ")).lower()[0] == "y":
                 print()
                 download(url, play=True)
             else:
