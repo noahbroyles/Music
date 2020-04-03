@@ -9,3 +9,4 @@ requests==2.23.0
 soupsieve==2.0
 termcolor==1.1.0
 urllib3==1.25.8
+youtube_search
