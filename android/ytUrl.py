@@ -1,24 +1,17 @@
-import requests
-import sys
-from bs4 import BeautifulSoup
+from youtube_search import YoutubeSearch
+import json
 
 
 def urlFromQuery(query):
-    query = query.replace(' ', '+')
-    try:
-        page = requests.get(f'https://www.youtube.com/results?search_query={query}').text
-    except requests.exceptions.ConnectionError:
-        print("There was an error connecting to YouTube. Check Internet/Proxy settings.")
-        sys.exit()
-    soup = BeautifulSoup(page, 'html.parser')
-    results = soup.find_all('a', {'class': 'yt-uix-tile-link'})
-    if len(results) == 0:
-        return None
-    else:
-        for vid in results:
-            if '/watch' in vid['href']:
-                url = 'https://www.youtube.com' + vid['href']
-    return url
+    results = YoutubeSearch(query, max_results=4).to_json()
+    data = json.loads(results)
+    results = data['videos']
+    videos = [v for v in results]
+    for vid in videos:
+        if "lyric" in vid['title'].lower():
+            url = "https://www.youtube.com" + vid["link"]
+            return url
+    return "https://www.youtube.com" + videos[0]["link"]
 
 
 if __name__ == "__main__":
