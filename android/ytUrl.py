@@ -1,9 +1,15 @@
 from youtube_search import YoutubeSearch
 import json
+import requests
+import sys
 
 
 def urlFromQuery(query):
-    results = YoutubeSearch(query, max_results=4).to_json()
+    try:
+        results = YoutubeSearch(query, max_results=4).to_json()
+    except requests.exceptions.ConnectionError:
+        print("There was an error connecting to YouTube. Check Proxy/Internet settings.")
+        sys.exit()
     data = json.loads(results)
     results = data['videos']
     videos = [v for v in results]
