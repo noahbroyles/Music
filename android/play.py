@@ -10,6 +10,7 @@ import random
 import ytUrl
 import youtube_dl
 import math
+import signal
 from termcolor import colored
 from mutagen.mp3 import MP3
 
@@ -31,11 +32,26 @@ def songTime(seconds):
     return str(minutes) + ":" + str(s)
 
 
+def handler(signum, frame):
+    print('Ctrl+Z pressed, but ignored')
+
+
 def playSong(path):
     """Plays an mp3 file from a given path"""
     duration = MP3(path).info.length
     print("Playing " + colored(path[:-len(".mp3")], "green") + " --- " + colored(str(songTime(duration)), "blue"))
-    os.system("play-audio '" + path + "'")
+
+    signal.signal(signal.SIGTSTP, handler)
+    if " " in path:
+        try:
+            os.system("play-audio '" + path + "'")
+        except KeyboardInterrupt:
+            return 0
+    else:
+        try:
+            os.system("play-audio " + path)
+        except KeyboardInterrupt:
+            return 0
 
 
 def getMeta(url):
@@ -46,7 +62,7 @@ def getMeta(url):
 
 
 def download(url, play=False):
-    title = CamelCase(re.sub(r" ?\([^)]+\)", "", getMeta(url)['title'])).replace(":", "-")
+    title = CamelCase(re.sub(r" ?\([^)]+\)", "", getMeta(url)['title'])).replace(":", "-").replace(" ", '')
     if title.endswith('.'):
         title = title[:-1]
     ydl_opts = {
@@ -65,8 +81,9 @@ def download(url, play=False):
 
 
 def main():
-    actions = colored("play", "green") + "        > plays downloaded mp3 songs\n" + colored("shuffle", "green") + "     > shuffles downloaded songs\n" + colored("download",
-                                                                                            "green") + "    > downloads mp3 from a YouTube URL\n" + colored(
+    actions = colored("play", "green") + "        > plays downloaded mp3 songs\n" + colored("shuffle", "green") + "     > shuffles downloaded songs\n" + colored(
+        "download",
+        "green") + "    > downloads mp3 from a YouTube URL\n" + colored(
         "geturl", "green") + "      > gives a YouTube URL from a search\n" + colored("exit",
                                                                                      "green") + "        > exit the player"
     while True:
@@ -94,7 +111,7 @@ def main():
 
             if command.strip() == "1":  # This is a shuffle play mode
                 print()
-                print('Shuffling songs... type "' + colored('skip', "yellow") + '" to skip one')
+                print('Shuffling songs... Do "' + colored('Ctrl-C', "yellow") + '" to skip one')
                 playableSongs = songNames.copy()
                 while len(playableSongs) > 0:
                     playingSong = random.choice(playableSongs)
@@ -140,7 +157,7 @@ def main():
             if url is not None:
                 print("Your URL is:", colored(url, "blue"))
                 if (input("Would you like to download " + colored(search, "green") + "? ")).lower()[0] == 'y':
-                    if (input("Do you want to play " + colored(search, "green") + " when it downloads? ")).lower():
+                    if (input("Do you want to play " + colored(search, "green") + " when it downloads? ")).lower()[0] == "y":
                         print()
                         download(url, play=True)
                     else:
