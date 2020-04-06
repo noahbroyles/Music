@@ -33,23 +33,23 @@ def songTime(seconds):
 
 
 def handler(signum, frame):
-    print('Ctrl+Z pressed, but ignored')
+    sys.exit()
 
 
 def playSong(path):
     """Plays an mp3 file from a given path"""
     duration = MP3(path).info.length
     print("Playing " + colored(path[:-len(".mp3")], "green") + " --- " + colored(str(songTime(duration)), "blue"))
-
-    signal.signal(signal.SIGTSTP, handler)
     if " " in path:
         try:
-            os.system("play-audio '" + path + "'")
+            signal.signal(signal.SIGTSTP, handler)
+            os.system("afplay '" + path + "'")
         except KeyboardInterrupt:
             return 0
     else:
         try:
-            os.system("play-audio " + path)
+            signal.signal(signal.SIGTSTP, handler)
+            os.system("afplay " + path)
         except KeyboardInterrupt:
             return 0
 
@@ -179,7 +179,7 @@ def main():
             songNames = [x for x in os.listdir() if x.endswith(".mp3")]
             songNames = sorted(songNames)
             print()
-            print('Shuffling songs... type "' + colored('skip', "yellow") + '" to skip one')
+            print('Shuffling songs... Do "' + colored('Ctrl-C', "yellow") + '" to skip one')
             playableSongs = songNames.copy()
             while len(playableSongs) > 0:
                 playingSong = random.choice(playableSongs)
