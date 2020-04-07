@@ -80,6 +80,21 @@ def download(url, play=False):
         playSong(title + '.mp3')
 
 
+def searchForSong(search):
+    url = ytUrl.urlFromQuery(search)
+    if url is not None:
+        print("Your URL is:", colored(url, "blue"))
+        if (input("Would you like to download " + colored(search, "green") + "? ")).lower()[0] == 'y':
+            if (input("Do you want to play " + colored(search, "green") + " when it downloads? ")).lower()[0] == "y":
+                print()
+                download(url, play=True)
+            else:
+                print()
+                download(url)
+    else:
+        print("A URL for " + search + " was not found.")
+
+
 def main():
     actions = colored("play", "green") + "        > plays downloaded mp3 songs\n" + colored("shuffle", "green") + "     > shuffles downloaded songs\n" + colored(
         "download",
@@ -139,32 +154,23 @@ def main():
                 else:
                     print(colored("Song not found.", "red"))
             else:
-                song = CamelCase(song)
+                capitalSong = CamelCase(song)
                 songList = [x for x in os.listdir() if x.endswith(".mp3")]
-                if len(song) <= 3:
+                if len(capitalSong) <= 3:
                     print(colored("Song not found.", "red"))
-                elif len(song) >= 4:
+                elif len(capitalSong) >= 4:
                     for s in songList:
                         ls = s.lower()[:-len(".mp3")]
-                        if song.lower() in ls or song.lower() == ls:
+                        if capitalSong.lower() in ls or capitalSong.lower() == ls:
                             playSong(s)
                             main()
                     print(colored("Song not found.", "red"))  # if we're still here, there was no such song
+                    if input("Would you like to search YouTube for " + colored(song, 'green') + "? ").lower()[0] == 'y':
+                        searchForSong(song)
 
         elif action == "geturl":
             search = input("What are you searching for? ")
-            url = ytUrl.urlFromQuery(search)
-            if url is not None:
-                print("Your URL is:", colored(url, "blue"))
-                if (input("Would you like to download " + colored(search, "green") + "? ")).lower()[0] == 'y':
-                    if (input("Do you want to play " + colored(search, "green") + " when it downloads? ")).lower()[0] == "y":
-                        print()
-                        download(url, play=True)
-                    else:
-                        print()
-                        download(url)
-            else:
-                print("A URL for " + search + " was not found.")
+            searchForSong(search)
 
         elif action == "download":
             url = input("Enter the URL to download mp3 from: ")
