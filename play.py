@@ -296,8 +296,10 @@ def main():
 
 if __name__ == "__main__":
     try:
-        songToPlay = sys.argv[1]
-        playSong(songToPlay)
+        if sys.argv[1].endswith(".mp3"):
+            playSong(sys.argv[1])
+        elif sys.argv[1].endswith('.pls'):
+            playPlaylist(sys.argv[1])
     except IndexError:
         main()
     print()
