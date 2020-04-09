@@ -187,6 +187,8 @@ def main():
                             playSong(s)
                             main()
                     print(colored("Song not found.", "red"))  # if we're still here, there was no such song
+                    if input("Would you like to search YouTube for " + colored(song, 'green') + "? ").lower()[0] == 'y':
+                        searchForSong(song)
 
         elif action == "geturl":
             search = input("What are you searching for? ")
