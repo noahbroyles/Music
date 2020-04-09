@@ -156,7 +156,7 @@ def createPlaylist():
             else:
                 break
         else:
-            playlist.append(allSongs[int(action) - 1])
+            playlist.append(songNames[int(action) - 1])
 
 
 def shuffleSongs():
