@@ -52,12 +52,16 @@ def playSong(path):
             do = input().lower()
             if do == "time":
                 print(colored(songTime(player.get_time() / 1000), "blue"))
-            if do == "pause":
+            elif do == "pause":
                 player.pause()
             elif do == "play":
                 player.play()
             elif do == "stop" or do == "skip":
                 player.stop()
+                break
+            elif do == "restart":
+                player.stop()
+                playSong(path)
                 break
             elif do == "exit":
                 player.stop()
