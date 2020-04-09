@@ -18,5 +18,4 @@ Don't worry about this directory unless you are trying to use this app in Termux
 pkg install play-audio
 ```
 
- ![Picture of music App]
- (https://github.com/noahbroyles/Music/blob/master/music.png?raw=true)
+ ![Picture of music App](https://github.com/noahbroyles/Music/blob/master/music.png?raw=true)
