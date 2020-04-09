@@ -149,7 +149,6 @@ def createPlaylist():
                 data = ""
                 for song in playlist:
                     data += song + "\n"
-                print(data)
                 with open(filename, 'w') as plsFile:
                     plsFile.write(data)
                 break
