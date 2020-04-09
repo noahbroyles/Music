@@ -10,10 +10,9 @@ import math
 from termcolor import colored
 from mutagen.mp3 import MP3
 
-
 actions = colored("play", "green") + "        > plays downloaded mp3 songs\n" + colored("shuffle", "green") + "     > shuffles downloaded songs\n" \
-          + colored("download","green") + "    > downloads mp3 from a YouTube URL\n" + colored("geturl", "green") + "      > gives a YouTube URL from a search\n"\
-          + colored("exit","green") + "        > exit the player" + colored("makepls", "green") + "      > makes a new playlist"
+          + colored("download", "green") + "    > downloads mp3 from a YouTube URL\n" + colored("geturl", "green") + "      > gives a YouTube URL from a search\n" \
+          + colored("exit", "green") + "        > exit the player\n" + colored("makepls", "green") + "      > makes a new playlist"
 
 
 def CamelCase(string):
@@ -118,7 +117,38 @@ def searchForSong(search):
 
 
 def createPlaylist():
-    pass
+    while True:
+        playlistName = input("What would you like to name this playlist? ")
+        if ' ' in playlistName:
+            print("No spaces allowed in playlist name. " + colored(playlistName, 'green') + " will be CamelCased.")
+        playlistName = CamelCase(playlistName)
+        filename = playlistName + '.pls'
+        if os.path.exists(filename):
+            if input("A playlist with that name already exits. Would you like to overwrite it? ").lower()[0] == 'y':
+                break
+        else:
+            break
+    playlist = []
+    allSongs = [x for x in os.listdir() if x.endswith('.mp3')]
+    songNames = sorted(allSongs)
+    print()
+    songID = 1
+    for songName in songNames:
+        print("[" + str(songID) + "] Add " + colored(songName[:-len(".mp3")], "green"))
+        songID += 1
+    print()
+    print(colored("Select the songs to add: ", "blue"))
+    while True:
+        action = input('Enter a song number to add, or type ' + colored("stop", "green") + ': ')
+        if action == 'stop':
+            if len(playlist) != 0:
+                with open(filename, 'w') as plsFile:
+                    plsFile.write(str(playlist))
+                break
+            else:
+                break
+        else:
+            playlist.append(allSongs[int(action) - 1])
 
 
 def shuffleSongs():
@@ -134,7 +164,6 @@ def shuffleSongs():
 
 
 def main():
-    
     while True:
         action = input('What would you like to do? ("' + colored('show', "yellow") + '" to show commands): ')
 
