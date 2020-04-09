@@ -176,14 +176,14 @@ def main():
                 else:
                     print(colored("Song not found.", "red"))
             else:
-                song = CamelCase(song)
+                capitalSong = CamelCase(song)
                 songList = [x for x in os.listdir() if x.endswith(".mp3")]
-                if len(song) <= 3:
+                if len(capitalSong) <= 3:
                     print(colored("Song not found.", "red"))
-                elif len(song) >= 4:
+                elif len(capitalSong) >= 4:
                     for s in songList:
                         ls = s.lower()[:-len(".mp3")]
-                        if song.lower() in ls or song.lower() == ls:
+                        if capitalSong.lower() in ls or capitalSong.lower() == ls:
                             playSong(s)
                             main()
                     print(colored("Song not found.", "red"))  # if we're still here, there was no such song
