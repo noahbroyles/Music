@@ -5,7 +5,7 @@ Yo, we all like 🎵! And Python. So I made some Python all about Music. 🎵�
 
 To install all the requirements for this project, run:
 ```
-$ pip install -r requirements.txt
+$ pip3 install -r requirements.txt
 ```
 And to run the main file:
 ```
