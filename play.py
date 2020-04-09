@@ -11,6 +11,11 @@ from termcolor import colored
 from mutagen.mp3 import MP3
 
 
+actions = colored("play", "green") + "        > plays downloaded mp3 songs\n" + colored("shuffle", "green") + "     > shuffles downloaded songs\n" \
+          + colored("download","green") + "    > downloads mp3 from a YouTube URL\n" + colored("geturl", "green") + "      > gives a YouTube URL from a search\n"\
+          + colored("exit","green") + "        > exit the player" + colored("makepls", "green") + "      > makes a new playlist"
+
+
 def CamelCase(string):
     camelString = ''
     for word in string.split(" "):
@@ -97,11 +102,12 @@ def download(url, play=False):
         playSong(title + '.mp3')
 
 
+def createPlaylist():
+    pass
+
+
 def main():
-    actions = colored("play", "green") + "        > plays downloaded mp3 songs\n" + colored("shuffle", "green") + "     > shuffles downloaded songs\n" + colored("download",
-                                                                                            "green") + "    > downloads mp3 from a YouTube URL\n" + colored(
-        "geturl", "green") + "      > gives a YouTube URL from a search\n" + colored("exit",
-                                                                                     "green") + "        > exit the player"
+    
     while True:
         action = input('What would you like to do? ("' + colored('show', "yellow") + '" to show commands): ')
 
@@ -134,7 +140,7 @@ def main():
                     playSong(playingSong)
                     playableSongs.remove(playingSong)
 
-            # Exit if command is 0
+            # back to main if command is 0
             elif command.strip() == "0":
                 main()
 
@@ -201,6 +207,9 @@ def main():
                 playingSong = random.choice(playableSongs)
                 playSong(playingSong)
                 playableSongs.remove(playingSong)
+
+        elif action == "makepls":
+            createPlaylist()
 
 
 if __name__ == "__main__":
