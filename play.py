@@ -146,8 +146,11 @@ def createPlaylist():
         action = input('Enter a song number to add, or type ' + colored("stop", "green") + ': ')
         if action == 'stop' or action == '':
             if len(playlist) != 0:
+                data = ""
+                for song in playlist:
+                    data += song + "\n"
                 with open(filename, 'w') as plsFile:
-                    plsFile.write(str(playlist))
+                    plsFile.write(data)
                 break
             else:
                 break
@@ -173,14 +176,16 @@ def playPlaylist(playlist=None):
         playlistNames = sorted(plists)
         pID = 1
         print()
-        for playlistName in plists:
+        for playlistName in playlistNames:
             print("[" + str(pID) + "] Play " + colored(playlistName[:-len(".pls")], "green"))
             pID += 1
         action = int(input("Enter the playlist number to play: "))
         playlist = plists[action - 1]
     with open(playlist, 'r') as plsFile:
-        songSequence = list(plsFile.read())
+        songSequence = [line for line in plsFile]
+        print(songSequence)
     for song in songSequence:
+        print(song)
         playSong(song)
 
 
