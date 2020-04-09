@@ -102,6 +102,21 @@ def download(url, play=False):
         playSong(title + '.mp3')
 
 
+def searchForSong(search):
+    url = ytUrl.urlFromQuery(search)
+    if url is not None:
+        print("Your URL is:", colored(url, "blue"))
+        if (input("Would you like to download " + colored(search, "green") + "? ")).lower()[0] == 'y':
+            if (input("Do you want to play " + colored(search, "green") + " when it downloads? ")).lower()[0] == "y":
+                print()
+                download(url, play=True)
+            else:
+                print()
+                download(url)
+    else:
+        print("A URL for " + search + " was not found.")
+
+
 def createPlaylist():
     pass
 
@@ -175,18 +190,7 @@ def main():
 
         elif action == "geturl":
             search = input("What are you searching for? ")
-            url = ytUrl.urlFromQuery(search)
-            if url is not None:
-                print("Your URL is:", colored(url, "blue"))
-                if (input("Would you like to download " + colored(search, "green") + "? ")).lower()[0] == 'y':
-                    if (input("Do you want to play " + colored(search, "green") + " when it downloads? ")).lower()[0] == "y":
-                        print()
-                        download(url, play=True)
-                    else:
-                        print()
-                        download(url)
-            else:
-                print("A URL for " + search + " was not found.")
+            searchForSong(search)
 
         elif action == "download":
             url = input("Enter the URL to download mp3 from: ")
