@@ -149,6 +149,7 @@ def createPlaylist():
                 data = ""
                 for song in playlist:
                     data += song + "\n"
+                print(data)
                 with open(filename, 'w') as plsFile:
                     plsFile.write(data)
                 break
@@ -182,10 +183,8 @@ def playPlaylist(playlist=None):
         action = int(input("Enter the playlist number to play: "))
         playlist = plists[action - 1]
     with open(playlist, 'r') as plsFile:
-        songSequence = [line for line in plsFile]
-        print(songSequence)
+        songSequence = [line.strip('\n') for line in plsFile]
     for song in songSequence:
-        print(song)
         playSong(song)
 
 
