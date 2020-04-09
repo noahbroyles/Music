@@ -10,9 +10,13 @@ import math
 from termcolor import colored
 from mutagen.mp3 import MP3
 
-actions = colored("play", "green") + "        > plays downloaded mp3 songs\n" + colored("shuffle", "green") + "     > shuffles downloaded songs\n" \
-          + colored("download", "green") + "    > downloads mp3 from a YouTube URL\n" + colored("geturl", "green") + "      > gives a YouTube URL from a search\n" \
-          + colored("exit", "green") + "        > exit the player\n" + colored("makepls", "green") + "      > makes a new playlist"
+actions = colored("play", "green") + "        > plays downloaded mp3 songs\n" \
+          + colored("shuffle", "green") + "     > shuffles downloaded songs\n" \
+          + colored("download", "green") + "    > downloads mp3 from a YouTube URL\n" \
+          + colored("geturl", "green") + "      > gives a YouTube URL from a search\n" \
+          + colored("exit", "green") + "        > exit the player\n" \
+          + colored("playls", "green") + "      > plays songs from a playlist\n" \
+          + colored("makepls", "green") + "     > makes a new playlist"
 
 
 def CamelCase(string):
@@ -172,6 +176,12 @@ def playPlaylist(playlist=None):
         for playlistName in plists:
             print("[" + str(pID) + "] Play " + colored(playlistName[:-len(".pls")], "green"))
             pID += 1
+        action = int(input("Enter the playlist number to play: "))
+        playlist = plists[action - 1]
+    with open(playlist, 'r') as plsFile:
+        songSequence = list(plsFile.read())
+    for song in songSequence:
+        playSong(song)
 
 
 def main():
