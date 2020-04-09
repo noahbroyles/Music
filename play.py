@@ -121,6 +121,18 @@ def createPlaylist():
     pass
 
 
+def shuffleSongs():
+    songNames = [x for x in os.listdir() if x.endswith(".mp3")]
+    songNames = sorted(songNames)
+    print()
+    print('Shuffling songs... type "' + colored('skip', "yellow") + '" to skip one')
+    playableSongs = songNames.copy()
+    while len(playableSongs) > 0:
+        playingSong = random.choice(playableSongs)
+        playSong(playingSong)
+        playableSongs.remove(playingSong)
+
+
 def main():
     
     while True:
@@ -204,15 +216,7 @@ def main():
                 download(url)
 
         elif action == "shuffle":
-            songNames = [x for x in os.listdir() if x.endswith(".mp3")]
-            songNames = sorted(songNames)
-            print()
-            print('Shuffling songs... type "' + colored('skip', "yellow") + '" to skip one')
-            playableSongs = songNames.copy()
-            while len(playableSongs) > 0:
-                playingSong = random.choice(playableSongs)
-                playSong(playingSong)
-                playableSongs.remove(playingSong)
+            shuffleSongs()
 
         elif action == "makepls":
             createPlaylist()
