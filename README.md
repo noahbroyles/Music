@@ -2,7 +2,7 @@
 ![Picture of music App](https://github.com/noahbroyles/Music/blob/master/music.png?raw=true)
 ## Playing music in Python3
 
-Yo, we all like 🎵! And Python. So I made some Python all about Music. 🎵🎵🎵 ;)
+Yo, we all like 🎵! And Python. So I made some Python all about Music. 🎵🎵🎵 😉
 
 To install all the requirements for this project, run:
 ```
