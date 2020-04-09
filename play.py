@@ -163,6 +163,17 @@ def shuffleSongs():
         playableSongs.remove(playingSong)
 
 
+def playPlaylist(playlist=None):
+    if not playlist:
+        plists = [x for x in os.listdir() if x.endswith('.pls')]
+        playlistNames = sorted(plists)
+        pID = 1
+        print()
+        for playlistName in plists:
+            print("[" + str(pID) + "] Play " + colored(playlistName[:-len(".pls")], "green"))
+            pID += 1
+
+
 def main():
     while True:
         action = input('What would you like to do? ("' + colored('show', "yellow") + '" to show commands): ')
@@ -172,6 +183,9 @@ def main():
 
         elif action == "exit":
             sys.exit()
+
+        elif action == 'playls':
+            playPlaylist()
 
         elif action == "play":
             print()
