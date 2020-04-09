@@ -120,8 +120,8 @@ def createPlaylist():
     while True:
         playlistName = input("What would you like to name this playlist? ")
         if ' ' in playlistName:
-            print("No spaces allowed in playlist name. " + colored(playlistName, 'green') + " will be CamelCased.")
-        playlistName = CamelCase(playlistName)
+            playlistName = CamelCase(playlistName)
+            print("No spaces allowed in playlist name. " + colored(playlistName, 'green') + " will be the name.")
         filename = playlistName + '.pls'
         if os.path.exists(filename):
             if input("A playlist with that name already exits. Would you like to overwrite it? ").lower()[0] == 'y':
@@ -140,7 +140,7 @@ def createPlaylist():
     print(colored("Select the songs to add: ", "blue"))
     while True:
         action = input('Enter a song number to add, or type ' + colored("stop", "green") + ': ')
-        if action == 'stop':
+        if action == 'stop' or action == '':
             if len(playlist) != 0:
                 with open(filename, 'w') as plsFile:
                     plsFile.write(str(playlist))
