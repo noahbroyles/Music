@@ -43,13 +43,13 @@ def playSong(path):
     if " " in path:
         try:
             signal.signal(signal.SIGTSTP, handler)
-            os.system("afplay '" + path + "'")
+            os.system("play-audio '" + path + "'")
         except KeyboardInterrupt:
             return 0
     else:
         try:
             signal.signal(signal.SIGTSTP, handler)
-            os.system("afplay " + path)
+            os.system("play-audio " + path)
         except KeyboardInterrupt:
             return 0
 
