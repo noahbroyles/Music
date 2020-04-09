@@ -200,6 +200,22 @@ def main():
         elif action == 'playls':
             playPlaylist()
 
+        elif action.startswith('playls') and len(action) > 6:
+            try:
+                action.split(' ')
+            except IndexError:
+                print(colored("Invalid playls commmand", 'red'))
+                main()
+            playlist = CamelCase(action[len("playls "):])
+            if os.path.exists(playlist):  # They said playlist.pls (VERY unlikely ;)
+                playPlaylist(playlist=playlist)
+            else:
+                playlist = playlist + ".pls"
+                if os.path.exists(playlist):
+                    playPlaylist(playlist)
+                else:  # If we're still here, there ain't no such playlist
+                    print(colored("Playlist not found.", 'red'))
+
         elif action == "play":
             print()
             songNames = [x for x in os.listdir() if x.endswith(".mp3")]
