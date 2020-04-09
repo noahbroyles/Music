@@ -254,16 +254,18 @@ def main():
                 print(colored("Invalid play command.", "red"))
                 main()
             song = action[len("play "):]
+            capitalSong = CamelCase(song)
             if song.endswith(".mp3"):  # the song is equal to the path
                 if os.path.exists(song):
                     playSong(song)
                 else:
                     print(colored("Song not found.", "red"))
-            elif song.endswith('.pls'):
-                if os.path.exists(song):
-                    playPlaylist(song)
+            elif capitalSong.endswith('.pls'):
+                if os.path.exists(capitalSong):
+                    playPlaylist(capitalSong)
+                elif os.path.exists(capitalSong + '.pls'):
+                    playPlaylist(capitalSong + '.pls')
             else:
-                capitalSong = CamelCase(song)
                 songList = [x for x in os.listdir() if x.endswith(".mp3")]
                 if len(capitalSong) <= 3:
                     print(colored("Song not found.", "red"))
