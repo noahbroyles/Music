@@ -6,7 +6,7 @@ import sys
 
 def urlFromQuery(query):
     try:
-        results = YoutubeSearch(query, max_results=4).to_json()
+        results = YoutubeSearch(query, max_results=5).to_json()
     except requests.exceptions.ConnectionError:
         print("There was an error connecting to YouTube. Check Proxy/Internet settings.")
         sys.exit()
@@ -25,3 +25,5 @@ if __name__ == "__main__":
     url = urlFromQuery(search)
     if url is not None:
         print(url, "is your url")
+    else:
+        print("No such thing was found.")
