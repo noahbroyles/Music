@@ -10,13 +10,14 @@ import math
 from termcolor import colored
 from mutagen.mp3 import MP3
 
-actions = colored("play", "green") + "        > plays downloaded mp3 songs\n" \
-          + colored("shuffle", "green") + "     > shuffles downloaded songs\n" \
-          + colored("download", "green") + "    > downloads mp3 from a YouTube URL\n" \
-          + colored("geturl", "green") + "      > gives a YouTube URL from a search\n" \
+actions = colored("play", "green") + "        > play downloaded songs\n" \
+          + colored("shuffle", "green") + "     > shuffle downloaded songs\n" \
+          + colored("download", "green") + "    > download mp3 from a YouTube URL\n" \
+          + colored("geturl", "green") + "      > get a YouTube URL from a search\n" \
           + colored("exit", "green") + "        > exit the player\n" \
-          + colored("playls", "green") + "      > plays songs from a playlist\n" \
-          + colored("makepls", "green") + "     > makes a new playlist"
+          + colored("playls", "green") + "      > play songs from a playlist\n" \
+          + colored("makepls", "green") + "     > make a new playlist\n" \
+          + colored("editpls", "green") + "     > edit an existing playlist"
 
 
 def CamelCase(string):
