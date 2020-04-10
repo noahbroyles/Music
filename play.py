@@ -20,6 +20,14 @@ actions = colored("play", "green") + "        > play downloaded songs\n" \
           + colored("editpls", "green") + "     > edit an existing playlist"
 
 
+def getAllSongs():
+    return sorted([s for s in os.listdir() if s.endswith('.mp3')])
+
+
+def getAllPlaylists():
+    return sorted([p for p in os.listdir() if p.endswith('.pls')])
+
+
 def CamelCase(string):
     camelString = ''
     for word in string.split(" "):
@@ -218,10 +226,9 @@ def editPlaylist(playlist=None):
         else:
             print("No playlists found. ")
             return
+
     newPlaylist = ""
     plsFile = open(playlist, 'w')
-
-
 
 
 def main():
@@ -319,7 +326,7 @@ def main():
                     # so let's see if it was supposed to be a playlist!
                     if capitalSong + '.pls' in os.listdir():
                         playPlaylist(capitalSong + '.pls')
-                    print(colored("Song not found.", "red"))  
+                    print(colored("Song not found.", "red"))
                     if input("Would you like to search YouTube for " + colored(song, 'green') + "? ").lower()[0] == 'y':
                         searchForSong(song)
 
