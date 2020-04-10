@@ -198,6 +198,31 @@ def playPlaylist(playlist=None):
         playSong(song)
 
 
+def editPlaylist(playlist=None):
+    if not playlist:
+        plists = [x for x in os.listdir() if x.endswith('.pls')]
+        playlistNames = sorted(plists)
+        if len(playlistNames) != 0:
+            pID = 1
+            print()
+            print(colored("Choose an option: ", 'blue'))
+            print("[0] " + colored("Exit", "red"))
+            for playlistName in playlistNames:
+                print("[" + str(pID) + "] Edit " + colored(playlistName[:-len(".pls")], "green"))
+                pID += 1
+            action = int(input("Enter the playlist number to edit: "))
+            if action == 0:
+                return
+            playlist = plists[action - 1]
+        else:
+            print("No playlists found. ")
+            return
+    newPlaylist = ""
+    plsFile = open(playlist, 'w')
+
+
+
+
 def main():
     while True:
         action = input('What would you like to do? ("' + colored('show', "yellow") + '" to show commands): ')
@@ -207,6 +232,9 @@ def main():
 
         elif action == "exit":
             sys.exit()
+
+        elif action == 'editpls':
+            editPlaylist()
 
         elif action == 'playls':
             playPlaylist()
