@@ -136,6 +136,8 @@ def createPlaylist():
     allSongs = [x for x in os.listdir() if x.endswith('.mp3')]
     songNames = sorted(allSongs)
     print()
+    print(colored("Choose an option: ", 'blue'))
+    print("[0] " + colored("Exit", "red"))
     songID = 1
     for songName in songNames:
         print("[" + str(songID) + "] Add " + colored(songName[:-len(".mp3")], "green"))
@@ -144,7 +146,7 @@ def createPlaylist():
     print(colored("Select the songs to add: ", "blue"))
     while True:
         action = input('Enter a song number to add, or type ' + colored("stop", "green") + ': ')
-        if action == 'stop' or action == '':
+        if action == 'stop' or action == '' or action == 0:
             if len(playlist) != 0:
                 data = ""
                 for song in playlist:
@@ -228,7 +230,7 @@ def main():
             print()
             songNames = [x for x in os.listdir() if x.endswith(".mp3")]
             songNames = sorted(songNames)
-            print("Choose an option: ")
+            print(colored("Choose an option: ", 'blue'))
             print("[0] " + colored("Exit", "red"))
             print("[1] " + colored("Shuffle All", "magenta"))
             songID = 2
