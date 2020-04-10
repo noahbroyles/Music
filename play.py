@@ -151,10 +151,10 @@ def createPlaylist():
         print("[" + str(songID) + "] Add " + colored(songName[:-len(".mp3")], "green"))
         songID += 1
     print()
-    print(colored("Select the songs to add: ", "blue"))
+    print(colored("Select the songs to add. Type " + colored("stop", 'green') + colored(" when you are finished.", 'blue'), "blue"))
     while True:
-        action = input('Enter a song number to add, or type ' + colored("stop", "green") + ': ')
-        if action == 'stop' or action == '' or action == 0:
+        action = input('Enter song number to add: ')
+        if action == 'stop' or action == '' or action == '0':
             if len(playlist) != 0:
                 data = ""
                 for song in playlist:
