@@ -142,8 +142,7 @@ def createPlaylist():
         else:
             break
     playlist = []
-    allSongs = [x for x in os.listdir() if x.endswith('.mp3')]
-    songNames = sorted(allSongs)
+    songNames = getAllSongs()
     print()
     print(colored("Choose an option: ", 'blue'))
     print("[0] " + colored("Exit", "red"))
@@ -170,8 +169,7 @@ def createPlaylist():
 
 
 def shuffleSongs():
-    songNames = [x for x in os.listdir() if x.endswith(".mp3")]
-    songNames = sorted(songNames)
+    songNames = getAllSongs()
     print()
     print('Shuffling songs... type "' + colored('skip', "yellow") + '" to skip one')
     playableSongs = songNames.copy()
@@ -183,8 +181,7 @@ def shuffleSongs():
 
 def playPlaylist(playlist=None):
     if not playlist:
-        plists = [x for x in os.listdir() if x.endswith('.pls')]
-        playlistNames = sorted(plists)
+        playlistNames = getAllPlaylists()
         if len(playlistNames) != 0:
             pID = 1
             print()
@@ -196,7 +193,7 @@ def playPlaylist(playlist=None):
             action = int(input("Enter the playlist number to play: "))
             if action == 0:
                 return
-            playlist = plists[action - 1]
+            playlist = playlistNames[action - 1]
         else:
             if input("No playlists found. Would you like to create one? ").lower()[0] == 'y':
                 createPlaylist()
@@ -209,8 +206,7 @@ def playPlaylist(playlist=None):
 
 def editPlaylist(playlist=None):
     if not playlist:
-        plists = [x for x in os.listdir() if x.endswith('.pls')]
-        playlistNames = sorted(plists)
+        playlistNames = getAllPlaylists()
         if len(playlistNames) != 0:
             pID = 1
             print()
@@ -222,7 +218,7 @@ def editPlaylist(playlist=None):
             action = int(input("Enter the playlist number to edit: "))
             if action == 0:
                 return
-            playlist = plists[action - 1]
+            playlist = playlistNames[action - 1]
         else:
             print("No playlists found. ")
             return
@@ -265,8 +261,7 @@ def main():
 
         elif action == "play":
             print()
-            songNames = [x for x in os.listdir() if x.endswith(".mp3")]
-            songNames = sorted(songNames)
+            songNames = getAllSongs()
             print(colored("Choose an option: ", 'blue'))
             print("[0] " + colored("Exit", "red"))
             print("[1] " + colored("Shuffle All", "magenta"))
@@ -278,13 +273,7 @@ def main():
             command = input("Enter action number: ")
 
             if command.strip() == "1":  # This is a shuffle play mode
-                print()
-                print('Shuffling songs... type "' + colored('skip', "yellow") + '" to skip one')
-                playableSongs = songNames.copy()
-                while len(playableSongs) > 0:
-                    playingSong = random.choice(playableSongs)
-                    playSong(playingSong)
-                    playableSongs.remove(playingSong)
+                shuffleSongs()
 
             # back to main if command is 0
             elif command.strip() == "0":
