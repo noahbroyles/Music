@@ -174,13 +174,21 @@ def playPlaylist(playlist=None):
     if not playlist:
         plists = [x for x in os.listdir() if x.endswith('.pls')]
         playlistNames = sorted(plists)
-        pID = 1
-        print()
-        for playlistName in playlistNames:
-            print("[" + str(pID) + "] Play " + colored(playlistName[:-len(".pls")], "green"))
-            pID += 1
-        action = int(input("Enter the playlist number to play: "))
-        playlist = plists[action - 1]
+        if len(playlistNames) != 0:
+            pID = 1
+            print()
+            print(colored("Choose an option: ", 'blue'))
+            print("[0] " + colored("Exit", "red"))
+            for playlistName in playlistNames:
+                print("[" + str(pID) + "] Play " + colored(playlistName[:-len(".pls")], "green"))
+                pID += 1
+            action = int(input("Enter the playlist number to play: "))
+            if action == 0:
+                return
+            playlist = plists[action - 1]
+        else:
+            print("No playlists found. ")
+            return
     with open(playlist, 'r') as plsFile:
         songSequence = [line.strip('\n') for line in plsFile]
     for song in songSequence:
@@ -301,6 +309,9 @@ def main():
 
         elif action == "makepls":
             createPlaylist()
+
+        else:
+            print(action + ": " + colored("command not found.", 'red'))
 
 
 if __name__ == "__main__":
