@@ -129,6 +129,17 @@ def searchForSong(search):
         print("A URL for " + search + " was not found.")
 
 
+def shuffleSongs():
+    songNames = getAllSongs()
+    print()
+    print('Shuffling songs... type "' + colored('skip', "yellow") + '" to skip one')
+    playableSongs = songNames.copy()
+    while len(playableSongs) > 0:
+        playingSong = random.choice(playableSongs)
+        playSong(playingSong)
+        playableSongs.remove(playingSong)
+
+        
 def createPlaylist():
     while True:
         playlistName = input("What would you like to name this playlist? ")
@@ -166,17 +177,6 @@ def createPlaylist():
                 break
         else:
             playlist.append(songNames[int(action) - 1])
-
-
-def shuffleSongs():
-    songNames = getAllSongs()
-    print()
-    print('Shuffling songs... type "' + colored('skip', "yellow") + '" to skip one')
-    playableSongs = songNames.copy()
-    while len(playableSongs) > 0:
-        playingSong = random.choice(playableSongs)
-        playSong(playingSong)
-        playableSongs.remove(playingSong)
 
 
 def playPlaylist(playlist=None):
@@ -222,9 +222,16 @@ def editPlaylist(playlist=None):
         else:
             print("No playlists found. ")
             return
-
-    newPlaylist = ""
-    plsFile = open(playlist, 'w')
+    allSongs = getAllSongs()
+    with open(playlist, 'r') as plsFile:
+        currentPlaylistData = plsFile.read().split('\n')
+    if '' in currentPlaylistData:
+        currentPlaylistData.remove('')
+    print(currentPlaylistData)
+    songID = 1
+    for song in allSongs:
+        print("[" + str(songID) + "] Play " + colored(song[:-len(".mp3")], "green"))
+        songID += 1
 
 
 def main():
