@@ -190,7 +190,8 @@ def playPlaylist(playlist=None):
                 return
             playlist = plists[action - 1]
         else:
-            print("No playlists found. ")
+            if input("No playlists found. Would you like to create one? ").lower()[0] == 'y':
+                createPlaylist()
             return
     with open(playlist, 'r') as plsFile:
         songSequence = [line.strip('\n') for line in plsFile]
