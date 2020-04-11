@@ -7,7 +7,6 @@ import ytUrl
 import selectors
 import youtube_dl
 import math
-import readline
 from termcolor import colored
 from mutagen.mp3 import MP3
 
@@ -290,6 +289,10 @@ def main():
 
         elif action == 'editpls':
             editPlaylist()
+        elif action.startswith('editpls ') and len(action) > 9:
+            playlistToEdit = action[len('editpls '):] + '.pls'
+            print(playlistToEdit)
+            editPlaylist(playlistToEdit)
 
         elif action == 'playls':
             playPlaylist()
