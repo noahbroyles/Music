@@ -7,6 +7,7 @@ import ytUrl
 import selectors
 import youtube_dl
 import math
+import readline
 from termcolor import colored
 from mutagen.mp3 import MP3
 
@@ -238,28 +239,38 @@ def editPlaylist(playlist=None):
         songID += 1
     print()
     csongID = 1
+    plsString = colored(" | ", 'blue')
+    for song in currentPlaylistData:
+        plsString += colored(song[:-len('.mp3')], 'green') + colored(" | ", 'blue')
+    print(colored('Current Playlist Order: ', 'blue') + plsString)
     for csong in currentPlaylistData:
-        print("Song #" + str(csongID) + ": " + colored(csong, 'green') + ':')
-        newSongNumber = input('New song number: ')
+        newSongNumber = input("Song #" + str(csongID) + " - (" + colored(csong[:-len('.mp3')], 'green') + '): ')
         if newSongNumber == '':
             pass
         else:
             currentPlaylistData[csongID - 1] = allSongs[int(newSongNumber) - 1]
         csongID += 1
     while True:
-        newSongNumber = input("Song #" + str(csongID) + ': ')
+        newSongNumber = input("Song #" + str(csongID) + ' - ')
         csongID += 1
         if newSongNumber == '':
             break
         else:
             currentPlaylistData.append(allSongs[int(newSongNumber) - 1])
+    plsString = colored(" | ", 'blue')
+    for song in currentPlaylistData:
+        plsString += colored(song[:-len('.mp3')], 'green') + colored(" | ", 'blue')
+    print(colored('New Playlist Order: ', 'blue') + plsString)
     if input("Would you like to write the changes to " + colored(playlist[:-len('.pls')], 'green') + "? ").lower()[0] == 'y':
         data = ""
         for song in currentPlaylistData:
             data += song + "\n"
         with open(playlist, 'w') as plsFile:
             plsFile.write(data)
-        print(colored(playlist[len('.pls'):], 'green') + " was saved. ")
+        print(colored(playlist[:-len('.pls')], 'green') + " was saved. ")
+    else:
+        if input("Would you like to edit this playlist again? ").lower()[0] == 'y':
+            editPlaylist(playlist=playlist)
 
 
 def main():
