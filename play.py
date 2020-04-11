@@ -50,7 +50,7 @@ def playSong(path):
     """Plays an mp3 file from a given path"""
     player = vlc.MediaPlayer(path)
     duration = MP3(path).info.length
-    player.audio_set_delay(1000)  # keeps vlc from playback freezing issues (only sometimes)
+    player.audio_set_delay(1500)  # keeps vlc from playback freezing issues (only sometimes)
     player.play()
     print("Playing " + colored(path[:-len(".mp3")], "green") + " --- " + colored(str(songTime(duration)), "blue"))
 
@@ -218,10 +218,14 @@ def editPlaylist(playlist=None):
             for playlistName in playlistNames:
                 print("[" + str(pID) + "] Edit " + colored(playlistName[:-len(".pls")], "green"))
                 pID += 1
-            action = int(input("Enter the playlist number to edit: "))
-            if action == 0:
-                return
-            playlist = playlistNames[action - 1]
+            action = input("Enter playlist number: ")
+            try:
+                action = int(action)
+                if action == 0:
+                    return
+                playlist = playlistNames[action - 1]
+            except ValueError:
+                playlist = action + '.pls'
         else:
             print("No playlists found. ")
             return
@@ -230,9 +234,8 @@ def editPlaylist(playlist=None):
         currentPlaylistData = plsFile.read().split('\n')
     if '' in currentPlaylistData:
         currentPlaylistData.remove('')
-    #  print(currentPlaylistData)
     songID = 1
-    print()
+    print(colored('EDITING ' + playlist[:-len('.pls')], 'blue'))
     print(colored("Song List:", 'blue'))
     for song in allSongs:
         print("[" + str(songID) + "] " + colored(song[:-len(".mp3")], "green"))
@@ -251,7 +254,7 @@ def editPlaylist(playlist=None):
             currentPlaylistData[csongID - 1] = allSongs[int(newSongNumber) - 1]
         csongID += 1
     while True:
-        newSongNumber = input("Song #" + str(csongID) + ' - ')
+        newSongNumber = input("Song #" + str(csongID) + ' - (' + colored("New song #", 'blue') + '): ')
         csongID += 1
         if newSongNumber == '':
             break
@@ -275,10 +278,11 @@ def editPlaylist(playlist=None):
 
 def main():
     while True:
+        print()
         action = input('What would you like to do? ("' + colored('show', "yellow") + '" to show commands): ')
 
         if action == "show":
-            print("\n" + actions + "\n")
+            print("\n" + actions)
 
         elif action == "exit":
             sys.exit()
