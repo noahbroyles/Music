@@ -140,20 +140,23 @@ def shuffleSongs():
         playableSongs.remove(playingSong)
 
 
-def createPlaylist():
-    while True:
-        playlistName = input("What would you like to name this playlist? ")
-        if ' ' in playlistName:
-            playlistName = CamelCase(playlistName)
-            print("No spaces allowed in playlist name. " + colored(playlistName, 'green') + " will be the name.")
-        elif playlistName.endswith('.pls'):
-            playlistName = playlistName.replace('.pls', '')  # The far-fetched possibility of 'crap.pls.pls'
-        filename = playlistName + '.pls'
-        if os.path.exists(filename):
-            if input("A playlist with that name already exits. Would you like to overwrite it? ").lower()[0] == 'y':
+def createPlaylist(playlistName=None):
+    if not playlistName:
+        while True:
+            playlistName = input("What would you like to name this playlist? ")
+            if ' ' in playlistName:
+                playlistName = CamelCase(playlistName)
+                print("No spaces allowed in playlist name. " + colored(playlistName, 'green') + " will be the name.")
+            elif playlistName.endswith('.pls'):
+                playlistName = playlistName.replace('.pls', '')  # The far-fetched possibility of 'crap.pls.pls'
+            filename = playlistName + '.pls'
+            if os.path.exists(filename):
+                if input("A playlist with that name already exits. Would you like to overwrite it? ").lower()[0] == 'y':
+                    break
+            else:
                 break
-        else:
-            break
+    else:
+        filename = playlistName + '.pls'  # We're all good
     playlist = []
     songNames = getAllSongs()
     print()
@@ -183,7 +186,9 @@ def createPlaylist():
                         plsFile.write(data)
                     return
                 else:
-                    print("The new playlist was not saved.")
+                    if input("Would you like to edit this playlist? ").lower()[0] == 'y':
+                        createPlaylist(playlistName=playlistName)
+                        return
             else:
                 return
         else:
@@ -216,6 +221,13 @@ def playPlaylist(playlist=None):
             playSong(song)
         else:
             print(song + colored(": Song file not found.", 'red'))
+
+
+def getPlaylistData(playLIST):
+    plsString = colored(" | ", 'blue')
+    for song in playLIST:
+        plsString += colored(song[:-len('.mp3')], 'green') + colored(" | ", 'blue')
+    return plsString
 
 
 def editPlaylist(playlist=None):
@@ -252,19 +264,30 @@ def editPlaylist(playlist=None):
         print("[" + str(songID) + "] " + colored(song[:-len(".mp3")], "green"))
         songID += 1
     print()
+    print(colored('Current Playlist Order: ', 'blue') + getPlaylistData(currentPlaylistData))
     csongID = 1
-    plsString = colored(" | ", 'blue')
-    for song in currentPlaylistData:
-        plsString += colored(song[:-len('.mp3')], 'green') + colored(" | ", 'blue')
-    print(colored('Current Playlist Order: ', 'blue') + plsString)
     print("Press <Enter> to keep current song, or enter a new song number")
     for csong in currentPlaylistData:
         newSongNumber = input("Song #" + str(csongID) + " - (" + colored(csong[:-len('.mp3')], 'green') + '): ')
         if newSongNumber == '':
             pass
-        elif newSongNumber == 'stop':
-            #  bro IDK!
-            pass
+        elif newSongNumber.startswith('del'):
+            currentPlaylistData.pop(csongID - 1)
+            print(colored('Current Playlist Order: ', 'blue') + getPlaylistData(currentPlaylistData))
+        elif newSongNumber == "stop":
+            print(colored('New Playlist Order: ', 'blue') + getPlaylistData(currentPlaylistData))
+            if input("Would you like to write the changes to " + colored(playlist[:-len('.pls')], 'green') + "? ").lower()[0] == 'y':
+                data = ""
+                for song in currentPlaylistData:
+                    data += song + "\n"
+                with open(playlist, 'w') as plsFile:
+                    plsFile.write(data)
+                print(colored(playlist[:-len('.pls')], 'green') + " was saved. ")
+                return
+            else:
+                if input("Would you like to edit this playlist again? ").lower()[0] == 'y':
+                    editPlaylist(playlist=playlist)
+                return
         else:
             currentPlaylistData[csongID - 1] = allSongs[int(newSongNumber) - 1]
         csongID += 1
@@ -275,10 +298,7 @@ def editPlaylist(playlist=None):
             break
         else:
             currentPlaylistData.append(allSongs[int(newSongNumber) - 1])
-    plsString = colored(" | ", 'blue')
-    for song in currentPlaylistData:
-        plsString += colored(song[:-len('.mp3')], 'green') + colored(" | ", 'blue')
-    print(colored('New Playlist Order: ', 'blue') + plsString)
+    print(colored('New Playlist Order: ', 'blue') + getPlaylistData(currentPlaylistData))
     if input("Would you like to write the changes to " + colored(playlist[:-len('.pls')], 'green') + "? ").lower()[0] == 'y':
         data = ""
         for song in currentPlaylistData:
