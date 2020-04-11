@@ -212,7 +212,10 @@ def playPlaylist(playlist=None):
     with open(playlist, 'r') as plsFile:
         songSequence = [line.strip('\n') for line in plsFile]
     for song in songSequence:
-        playSong(song)
+        if os.path.exists(song):
+            playSong(song)
+        else:
+            print(song + colored(": Song file not found.", 'red'))
 
 
 def editPlaylist(playlist=None):
@@ -258,6 +261,9 @@ def editPlaylist(playlist=None):
     for csong in currentPlaylistData:
         newSongNumber = input("Song #" + str(csongID) + " - (" + colored(csong[:-len('.mp3')], 'green') + '): ')
         if newSongNumber == '':
+            pass
+        elif newSongNumber == 'stop':
+            #  bro IDK!
             pass
         else:
             currentPlaylistData[csongID - 1] = allSongs[int(newSongNumber) - 1]
