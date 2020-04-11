@@ -139,7 +139,7 @@ def shuffleSongs():
         playSong(playingSong)
         playableSongs.remove(playingSong)
 
-        
+
 def createPlaylist():
     while True:
         playlistName = input("What would you like to name this playlist? ")
@@ -227,11 +227,24 @@ def editPlaylist(playlist=None):
         currentPlaylistData = plsFile.read().split('\n')
     if '' in currentPlaylistData:
         currentPlaylistData.remove('')
-    print(currentPlaylistData)
+    #  print(currentPlaylistData)
     songID = 1
+    print()
+    print(colored("Song List:", 'blue'))
     for song in allSongs:
-        print("[" + str(songID) + "] Play " + colored(song[:-len(".mp3")], "green"))
+        print("[" + str(songID) + "] " + colored(song[:-len(".mp3")], "green"))
         songID += 1
+    print()
+    csongID = 1
+    for csong in currentPlaylistData:
+        print("Song " + str(csongID) + ": " + colored(csong, 'green') + ':')
+        newSongNumber = input('New song number: ')
+        if newSongNumber == '':
+            pass
+        else:
+             currentPlaylistData[csongID - 1] = allSongs[int(newSongNumber) - 1]
+        csongID += 1
+    print(currentPlaylistData)
 
 
 def main():
