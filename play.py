@@ -246,6 +246,7 @@ def editPlaylist(playlist=None):
     for song in currentPlaylistData:
         plsString += colored(song[:-len('.mp3')], 'green') + colored(" | ", 'blue')
     print(colored('Current Playlist Order: ', 'blue') + plsString)
+    print("Press <Enter> to keep current song, or enter a new song number")
     for csong in currentPlaylistData:
         newSongNumber = input("Song #" + str(csongID) + " - (" + colored(csong[:-len('.mp3')], 'green') + '): ')
         if newSongNumber == '':
