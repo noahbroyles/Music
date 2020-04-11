@@ -165,18 +165,27 @@ def createPlaylist():
         songID += 1
     print()
     print(colored("Select the songs to add. Type " + colored("stop", 'green') + colored(" when you are finished.", 'blue'), "blue"))
+    songCount = 1
     while True:
-        action = input('Enter song number to add: ')
+        action = input('Add song #' + str(songCount) + ': ')
+        songCount += 1
         if action == 'stop' or action == '' or action == '0':
             if len(playlist) != 0:
-                data = ""
+                plsString = colored(" | ", 'blue')
                 for song in playlist:
-                    data += song + "\n"
-                with open(filename, 'w') as plsFile:
-                    plsFile.write(data)
-                break
+                    plsString += colored(song[:-len('.mp3')], 'green') + colored(" | ", 'blue')
+                print(colored("Playlist Order: ", 'blue') + plsString)
+                if input("Would you like to save " + colored(playlistName, 'green') + "? ").lower()[0] == 'y':
+                    data = ""
+                    for song in playlist:
+                        data += song + "\n"
+                    with open(filename, 'w') as plsFile:
+                        plsFile.write(data)
+                    return
+                else:
+                    print("The new playlist was not saved.")
             else:
-                break
+                return
         else:
             playlist.append(songNames[int(action) - 1])
 
