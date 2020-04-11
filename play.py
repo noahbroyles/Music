@@ -266,27 +266,13 @@ def editPlaylist(playlist=None):
     print()
     print(colored('Current Playlist Order: ', 'blue') + getPlaylistData(currentPlaylistData))
     csongID = 1
-    print("Press <Enter> to keep current song, or enter a new song number")
+    print('Press <Enter> to keep current song, "' + colored("del", 'green') + '" to delete the currrent song,  or enter a new song number')
     for csong in currentPlaylistData:
         newSongNumber = input("Song #" + str(csongID) + " - (" + colored(csong[:-len('.mp3')], 'green') + '): ')
         if newSongNumber == '':
             pass
         elif newSongNumber.startswith('del'):
             currentPlaylistData.pop(csongID - 1)
-        elif newSongNumber == "stop":
-            print(colored('New Playlist Order: ', 'blue') + getPlaylistData(currentPlaylistData))
-            if input("Would you like to write the changes to " + colored(playlist[:-len('.pls')], 'green') + "? ").lower()[0] == 'y':
-                data = ""
-                for song in currentPlaylistData:
-                    data += song + "\n"
-                with open(playlist, 'w') as plsFile:
-                    plsFile.write(data)
-                print(colored(playlist[:-len('.pls')], 'green') + " was saved. ")
-                return
-            else:
-                if input("Would you like to edit this playlist again? ").lower()[0] == 'y':
-                    editPlaylist(playlist=playlist)
-                return
         else:
             currentPlaylistData[csongID - 1] = allSongs[int(newSongNumber) - 1]
         csongID += 1
