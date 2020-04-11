@@ -75,11 +75,11 @@ def playSong(path):
                 player.play()
             elif do == "stop" or do == "skip":
                 player.stop()
-                break
+                return
             elif do == "restart":
                 player.stop()
                 playSong(path)
-                break
+                return
             elif do == "exit":
                 player.stop()
                 main()
@@ -146,6 +146,8 @@ def createPlaylist():
         if ' ' in playlistName:
             playlistName = CamelCase(playlistName)
             print("No spaces allowed in playlist name. " + colored(playlistName, 'green') + " will be the name.")
+        elif playlistName.endswith('.pls'):
+            playlistName = playlistName.replace('.pls', '')  # The far-fetched possibility of 'crap.pls.pls'
         filename = playlistName + '.pls'
         if os.path.exists(filename):
             if input("A playlist with that name already exits. Would you like to overwrite it? ").lower()[0] == 'y':
@@ -237,14 +239,27 @@ def editPlaylist(playlist=None):
     print()
     csongID = 1
     for csong in currentPlaylistData:
-        print("Song " + str(csongID) + ": " + colored(csong, 'green') + ':')
+        print("Song #" + str(csongID) + ": " + colored(csong, 'green') + ':')
         newSongNumber = input('New song number: ')
         if newSongNumber == '':
             pass
         else:
-             currentPlaylistData[csongID - 1] = allSongs[int(newSongNumber) - 1]
+            currentPlaylistData[csongID - 1] = allSongs[int(newSongNumber) - 1]
         csongID += 1
-    print(currentPlaylistData)
+    while True:
+        newSongNumber = input("Song #" + str(csongID) + ': ')
+        csongID += 1
+        if newSongNumber == '':
+            break
+        else:
+            currentPlaylistData.append(allSongs[int(newSongNumber) - 1])
+    if input("Would you like to write the changes to " + colored(playlist[:-len('.pls')], 'green') + "? ").lower()[0] == 'y':
+        data = ""
+        for song in currentPlaylistData:
+            data += song + "\n"
+        with open(playlist, 'w') as plsFile:
+            plsFile.write(data)
+        print(colored(playlist[len('.pls'):], 'green') + " was saved. ")
 
 
 def main():
