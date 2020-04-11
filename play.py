@@ -273,7 +273,6 @@ def editPlaylist(playlist=None):
             pass
         elif newSongNumber.startswith('del'):
             currentPlaylistData.pop(csongID - 1)
-            print(colored('Current Playlist Order: ', 'blue') + getPlaylistData(currentPlaylistData))
         elif newSongNumber == "stop":
             print(colored('New Playlist Order: ', 'blue') + getPlaylistData(currentPlaylistData))
             if input("Would you like to write the changes to " + colored(playlist[:-len('.pls')], 'green') + "? ").lower()[0] == 'y':
@@ -294,7 +293,7 @@ def editPlaylist(playlist=None):
     while True:
         newSongNumber = input("Song #" + str(csongID) + ' - (' + colored("New song #", 'blue') + '): ')
         csongID += 1
-        if newSongNumber == '':
+        if newSongNumber == '' or newSongNumber == 'stop' or newSongNumber == 'done':
             break
         else:
             currentPlaylistData.append(allSongs[int(newSongNumber) - 1])
