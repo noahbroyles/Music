@@ -266,7 +266,7 @@ def editPlaylist(playlist=None):
     print()
     print(colored('Current Playlist Order: ', 'blue') + getPlaylistData(currentPlaylistData))
     csongID = 1
-    print('Press <Enter> to keep current song, "' + colored("del", 'green') + '" to delete the currrent song,  or enter a new song number')
+    print('Press <Enter> to keep current song, "' + colored("del", 'green') + '" to delete the current song,  or enter a new song number')
     while (csongID-1) < len(currentPlaylistData):
         newSongNumber = input("Song #" + str(csongID) + " - (" + colored(currentPlaylistData[csongID - 1][:-len('.mp3')], 'green') + '): ')
         if newSongNumber == '':
