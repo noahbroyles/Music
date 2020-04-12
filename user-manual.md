@@ -1,2 +1,5 @@
 # Basic use:
-Enjoy!
+To start the program, run:
+```console
+python3 play.py
+```
