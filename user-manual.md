@@ -24,4 +24,4 @@ editpls     > edit an existing playlist
 You can also type `show` to view this list of actions.
 
 ### Play Mode:
-To enter play mode, type `play` at the prompt. You will be shown a list of all mp3 songs in the same directory with a number associated with it. Entering a `1` here will shuffle all songs, and entering a `0` will exit play mode. Entering a song number will play that song. Optionally, you can type `play <songname>`. If the songname is found, the player will play the song.
+To enter play mode, type `play` at the prompt. You will be shown a list of all mp3 songs in the same directory with a number associated with them. Entering a `1` here will shuffle all songs, and entering a `0` will exit play mode. Entering a song number will play that song. Optionally, you can type `play <songname>`. If the songname is found, the player will play the song.
