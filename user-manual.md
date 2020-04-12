@@ -44,20 +44,23 @@ exit       > returns to main prompt - breaks out of current play queue
 To enter shuffle mode, type `shuffle` at the prompt. The player will play all the songs in a random order. To skip a song in shuffle mode, type `skip`.
   
   
-### Download:
+### Download from URL:
 To enter download mode, enter `download`at the prompt. You will be asked for a YouTube URL to download `mp3` from. The `mp3` file will be placed in the current directory.  
 File names are saved in this format: `TitleOfYoutubeVideo.mp3`  
   
-### Geturl:
+### Get a URL:
 To get a URL to a YouTube video, type `geturl` at the prompt. You can then enter a search phrase which will return a URL. Videos with 'lyrics' in the title are preferred for obvious reasons.  
 The program will ask whether you would like to download the `mp3` from that URL, and whether you would like to play it when it downloads. Respond with `yes/no`. 
 
-### Playls:
+### Play a Playlist:
 To play a playlist, enter `playls` at the prompt. You will be shown a list of all `pls` files in the same directory with a number associated with them. To play one, enter the playlist number.  To exit from here, enter `0`.  
   
-### Makepls:
+### Make a Playlist:
 To create a playlist, enter `makepls` at the prompt. You will be asked for a playlist name. The format for these names is `CamelCase`. If you enter a name with spaces in it, it will `CamelCased` for you.😉  
-The program will print a list of songs with a number associated with each one. Enter a song number to add it to the playlist. When you are done adding songs, type `stop`. You will be prompted to save the playlist. Enter `yes/no`. 
+The program will print a list of songs with a number associated with each one. Enter a song number to add it to the playlist. When you are done adding songs, type `stop`. You will be prompted to save the playlist. Enter `yes/no`.  
+  
+### Edit a Playlist:
+ 
   
  
   
