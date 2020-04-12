@@ -38,7 +38,13 @@ restart    > restarts the current song from the beginning
 exit       > returns to main prompt - breaks out of current play queue
 ```
 #### Play Options (Android version):
-`Ctrl-C` to skip current song, `Ctrl-Z` to kill program.
+`Ctrl-C` to skip current song, `Ctrl-Z` to kill program  
 
 ### Shuffle Mode:
 To enter shuffle mode, type `shuffle` at the prompt. The player will play all the songs in a random order. To skip a song in shuffle mode, type `skip`.
+  
+  
+### Download:
+`download` will ask you to input a YouTube URL, and then download `mp3` from that URL and place the file in the current directory.  
+File names are saved in this format: `TitleOfYoutubeVideo.mp3`
+  
