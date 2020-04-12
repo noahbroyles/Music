@@ -1,4 +1,9 @@
-# Basic use:
+# First use:
+Before starting, install the project requierments from `requierments.txt`.
+```
+$ pip3 install -r requirements.txt
+```
+## Basic Use:
 To start the program, run:
 ```
 $ python3 play.py
@@ -14,3 +19,7 @@ playls      > play songs from a playlist file (.pls)
 makepls     > make a new playlist
 editpls     > edit an existing playlist
 ```
+You can also type `show` to view this list of actions.
+
+### Play Mode:
+
