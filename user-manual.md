@@ -4,9 +4,9 @@ Before starting, install the project requirements from `requierments.txt`.
 $ pip3 install -r requirements.txt
 ```
 Also note that it is important(for now) to keep your `mp3` and `pls` files in the same directory as `play.py`.
-If you would like to use my provided songs and playlists(which I highly recommend), run this pro command:
+If you would like to use my provided songs and playlists(which I highly recommend), run this pro command(_Linux and Mac Only_):
 ```commandline
-$ mv songs/* .
+$ mv songs/* . && rm -r songs/
 ```
 This will move some songs and playlists in with `play.py`, which is great. That means you get right to the 🎵🎵🎵.
 ## Basic Use:
