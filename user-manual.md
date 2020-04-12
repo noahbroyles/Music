@@ -8,7 +8,7 @@ If you would like to use my provided songs and playlists(which I highly recommen
 ```commandline
 $ mv songs/* . && rm -r songs/
 ```
-This will move some songs and playlists in with `play.py`, which is great. That means you get right to the 🎵🎵🎵.
+This will move some songs and playlists in with `play.py`, which is great. That means you can get right to the 🎵🎵🎵.
 ## Basic Use:
 To start the program, run:
 ```commandline
