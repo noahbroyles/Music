@@ -375,8 +375,8 @@ def main():
             elif capitalSong.endswith('.pls'):
                 if os.path.exists(capitalSong):
                     playPlaylist(capitalSong)
-                elif os.path.exists(capitalSong + '.pls'):
-                    playPlaylist(capitalSong + '.pls')
+            elif os.path.exists(capitalSong + '.pls'):
+                playPlaylist(capitalSong + '.pls')
             else:
                 songList = [x for x in os.listdir() if x.endswith(".mp3")]
                 if len(capitalSong) <= 3:
@@ -388,9 +388,6 @@ def main():
                             playSong(s)
                             main()
                     # if we're still here, there was no such song
-                    # so let's see if it was supposed to be a playlist!
-                    if capitalSong + '.pls' in os.listdir():
-                        playPlaylist(capitalSong + '.pls')
                     print(colored("Song not found.", "red"))
                     if input("Would you like to search YouTube for " + colored(song, 'green') + "? ").lower()[0] == 'y':
                         searchForSong(song)
