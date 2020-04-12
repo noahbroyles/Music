@@ -38,7 +38,7 @@ restart    > restarts the current song from the beginning
 exit       > returns to main prompt - breaks out of current play queue
 ```
 #### Play Options (Android version):
-`Ctrl-C` to skip current song, `Ctrl-Z` to kill program  
+`Ctrl-C` will skip the current song, `Ctrl-Z` to kill the whole program.  
 
 ### Shuffle Mode:
 To enter shuffle mode, type `shuffle` at the prompt. The player will play all the songs in a random order. To skip a song in shuffle mode, type `skip`.
@@ -46,5 +46,11 @@ To enter shuffle mode, type `shuffle` at the prompt. The player will play all th
   
 ### Download:
 To enter download mode, enter `download`at the prompt. You will be asked for a YouTube URL to download `mp3` from. The `mp3` file will be placed in the current directory.  
-File names are saved in this format: `TitleOfYoutubeVideo.mp3`
+File names are saved in this format: `TitleOfYoutubeVideo.mp3`  
+  
+### Geturl:
+To get a URL to a YouTube video, type `geturl` at the prompt. You can then enter a search phrase which will return a URL. Videos with 'lyrics' in the title are preferred for obvious reasons.  
+The program will ask whether you would like to download the `mp3` from that URL, and whether you would like to play it when it downloads. Respond with `yes/no`. 
+
+
   
