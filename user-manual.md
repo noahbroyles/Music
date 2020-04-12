@@ -1,5 +1,5 @@
 # First use:
-Before starting, install the project requierments from `requierments.txt`.
+Before starting, install the project requirements from `requierments.txt`.
 ```
 $ pip3 install -r requirements.txt
 ```
