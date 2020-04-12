@@ -12,7 +12,7 @@ $ python3 play.py
 ```
 The program will prompt you to enter a command. The different commands are:
 ```
-[play](https://github.com/noahbroyles/Music/blob/master/user-manual.md#play-mode)        > play downloaded mp3 songs
+play        > play downloaded mp3 songs
 shuffle     > shuffle all downloaded mp3 songs
 download    > download mp3 from a YouTube URL
 geturl      > get a YouTube URL from a search query
