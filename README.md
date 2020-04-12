@@ -20,4 +20,4 @@ pkg install play-audio
 ```
 
 ## User Manual
-[Right here](https://google.com)
+[Right here](https://github.com/noahbroyles/Music/blob/master/user-manual.md)
