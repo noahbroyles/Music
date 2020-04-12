@@ -34,7 +34,7 @@ time       > shows the time since the song started in mins:secs
 pause      > pauses the song
 play       > plays the song
 stop/skip  > stops the current song/skips to the next song
-restart    > restarts the current song from the beginning 
+restart    > replays the current song from the beginning 
 exit       > returns to main prompt - breaks out of current play queue
 ```
 #### Play Options (Android version):
@@ -53,5 +53,11 @@ To get a URL to a YouTube video, type `geturl` at the prompt. You can then enter
 The program will ask whether you would like to download the `mp3` from that URL, and whether you would like to play it when it downloads. Respond with `yes/no`. 
 
 ### Playls:
-To play a playlist, enter `playls` at the prompt. You will be shown a list of all `pls` files in the same directory with a number associated with them. To play one, enter the playlist number.  To exit from here, enter `0`. 
+To play a playlist, enter `playls` at the prompt. You will be shown a list of all `pls` files in the same directory with a number associated with them. To play one, enter the playlist number.  To exit from here, enter `0`.  
+  
+### Makepls:
+To create a playlist, enter `makepls` at the prompt. You will be asked for a playlist name. The format for these names is `CamelCase`. If you enter a name with spaces in it, it will `CamelCased` for you.😉  
+The program will print a list of songs with a number associated with each one. Enter a song number to add it to the playlist. When you are done adding songs, type `stop`. You will be prompted to save the playlist. Enter `yes/no`. 
+  
+ 
   
