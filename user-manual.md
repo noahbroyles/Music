@@ -52,5 +52,6 @@ File names are saved in this format: `TitleOfYoutubeVideo.mp3`
 To get a URL to a YouTube video, type `geturl` at the prompt. You can then enter a search phrase which will return a URL. Videos with 'lyrics' in the title are preferred for obvious reasons.  
 The program will ask whether you would like to download the `mp3` from that URL, and whether you would like to play it when it downloads. Respond with `yes/no`. 
 
-
+### Playls:
+To play a playlist, enter `playls` at the prompt. You will be shown a list of all `pls` files in the same directory with a number associated with them. To play one, enter the playlist number.  To exit from here, enter `0`. 
   
