@@ -60,6 +60,8 @@ To create a playlist, enter `makepls` at the prompt. You will be asked for a pla
 The program will print a list of songs with a number associated with each one. Enter a song number to add it to the playlist. When you are done adding songs, type `stop`. You will be prompted to save the playlist. Enter `yes/no`.  
   
 ### Edit a Playlist:
+To edit an existing playlist... Well, use `editpls`. You will be shown a list of playlists to edit - they are all numbered. Pick one. You'll be shown a list of all songs(with numbers) and the current songs in the playlist.    
+As you go through the songs in the playlist, enter a new song number to *replace* the current song, `del` to just *remove* it, or `stop` when you're satisfied with your new playlist. You'll then be asked to save it or not. You should probably say `yes/no`. 
  
   
  
