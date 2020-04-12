@@ -21,12 +21,14 @@ playls      > play songs from a playlist file (.pls)
 makepls     > make a new playlist
 editpls     > edit an existing playlist
 ```
-You can also type `show` to view this list of actions.
+You can also type `show` to view this list of actions.  
+  
+   
 
 ### Play Mode:
 To enter play mode, type `play` at the prompt. You will be shown a list of all mp3 songs in the same directory with a number associated with them. Entering a `1` here will shuffle all songs, and entering a `0` will exit play mode. Entering a song number will play that song. Optionally, you can type `play <songname>`. If the songname is found, the player will play the song.
-#### Play Options:
-Whenever a song is playing, there are 6 commands you can run at the `> ` prompt(VLC version only):
+#### Play Options (VLC Version):
+Whenever a song is playing, there are 6 commands you can run at the `> ` prompt:
 ```
 time       > shows the time since the song started in mins:secs
 pause      > pauses the song
@@ -35,6 +37,8 @@ stop/skip  > stops the current song/skips to the next song
 restart    > restarts the current song from the beginning 
 exit       > returns to main prompt - breaks out of current play queue
 ```
+#### Play Options (Android version):
+`Ctrl-C` to skip current song, `Ctrl-Z` to kill program.
 
 ### Shuffle Mode:
 To enter shuffle mode, type `shuffle` at the prompt. The player will play all the songs in a random order. To skip a song in shuffle mode, type `skip`.
