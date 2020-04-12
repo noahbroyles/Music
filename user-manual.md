@@ -45,6 +45,6 @@ To enter shuffle mode, type `shuffle` at the prompt. The player will play all th
   
   
 ### Download:
-`download` will ask you to input a YouTube URL, and then download `mp3` from that URL and place the file in the current directory.  
+To enter download mode, enter `download`at the prompt. You will be asked for a YouTube URL, and then download `mp3` from that URL and place the file in the current directory.  
 File names are saved in this format: `TitleOfYoutubeVideo.mp3`
   
