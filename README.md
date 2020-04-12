@@ -18,3 +18,6 @@ Don't worry about this directory unless you are trying to use this app in Termux
 ```
 pkg install play-audio
 ```
+
+## User Manual
+[Right here](https://google.com)
