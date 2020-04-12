@@ -69,7 +69,7 @@ As you go through the songs in the playlist, enter a new song number to *replace
   
   
 # Troubleshooting:
-Read the da*n code and make a Pull Request.
+_Read the da*n code and make a Pull Request._ Thanks.
  
  
   
