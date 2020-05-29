@@ -96,7 +96,7 @@ def getMeta(url):
 
 
 def download(url, play=False):
-    title = CamelCase(re.sub(r" ?\([^)]+\)", "", getMeta(url)['title'])).replace(":", "-").replace(" ", '')
+    title = CamelCase(re.sub(r" ?\([^)]+\)", "", getMeta(url)['title'])).replace(":", "-").replace(" ", '').replace("'", '')
     if title.endswith('.'):
         title = title[:-1]
     ydl_opts = {
