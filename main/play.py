@@ -405,11 +405,6 @@ def main():
                 print()
                 download(url)
 
-        elif action.startswith('download') and len(action) > 8:
-
-            print()
-            download(url)
-
         elif action == "shuffle":
             shuffleSongs()
 
