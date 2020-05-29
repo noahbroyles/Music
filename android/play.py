@@ -7,7 +7,7 @@ import os
 import re
 import sys
 import random
-from main import ytUrl
+import ytUrl
 import signal
 import youtube_dl
 import math
@@ -250,7 +250,7 @@ def editPlaylist(playlist=None):
     print(colored('Current Playlist Order: ', 'blue') + getPlaylistData(currentPlaylistData))
     csongID = 1
     print('Press <Enter> to keep current song, "' + colored("del", 'green') + '" to delete the currrent song,  or enter a new song number')
-    while (csongID-1) < len(currentPlaylistData):
+    while (csongID - 1) < len(currentPlaylistData):
         newSongNumber = input("Song #" + str(csongID) + " - (" + colored(currentPlaylistData[csongID - 1][:-len('.mp3')], 'green') + '): ')
         if newSongNumber == '':
             pass
@@ -379,8 +379,8 @@ def main():
             search = input("What are you searching for? ")
             searchForSong(search)
 
-        elif action == "download":
-            url = input("Enter the URL to download mp3 from: ")
+        elif action.startswith('download'):
+            url = input("Enter the URL to download mp3 from: ") if len(action) == 8 else action.split(' ')[1]
             if (input("Do you want to play the song when it downloads? ")).lower()[0] == "y":
                 print()
                 download(url, play=True)

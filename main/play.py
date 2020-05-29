@@ -3,7 +3,7 @@ import re
 import sys
 import random
 import vlc
-from main import ytUrl
+import ytUrl
 import selectors
 import youtube_dl
 import math
@@ -396,14 +396,19 @@ def main():
             search = input("What are you searching for? ")
             searchForSong(search)
 
-        elif action == "download":
-            url = input("Enter the URL to download mp3 from: ")
+        elif action.startswith('download'):
+            url = input("Enter the URL to download mp3 from: ") if len(action) == 8 else action.split(' ')[1]
             if (input("Do you want to play the song when it downloads? ")).lower()[0] == "y":
                 print()
                 download(url, play=True)
             else:
                 print()
                 download(url)
+
+        elif action.startswith('download') and len(action) > 8:
+
+            print()
+            download(url)
 
         elif action == "shuffle":
             shuffleSongs()
