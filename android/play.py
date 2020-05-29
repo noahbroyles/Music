@@ -7,7 +7,7 @@ import os
 import re
 import sys
 import random
-import ytUrl
+from main import ytUrl
 import signal
 import youtube_dl
 import math

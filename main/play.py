@@ -3,7 +3,7 @@ import re
 import sys
 import random
 import vlc
-import ytUrl
+from main import ytUrl
 import selectors
 import youtube_dl
 import math
