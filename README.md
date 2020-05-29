@@ -10,6 +10,7 @@ $ pip3 install -r requirements.txt
 ```
 And to run the main file:
 ```
+$ cd main/
 $ python3 play.py
 ```
 
