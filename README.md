@@ -8,12 +8,12 @@ To install all the requirements for this project, run:
 ```
 $ pip3 install -r requirements.txt
 ```
+Also, for the VLC version, VLC Media Player is required to be installed on your computer. You can download it for MacOS, Linux or Windows(I guess) from [videolan](https://www.videolan.org/vlc/index.html).
 And to run the main file:
 ```
 $ cd vlc/
 $ python3 play.py
 ```
-For the VLC version, VLC Media Player is required to be installed on your computer.
 
 ## Android
 Don't worry about this directory unless you are trying to use this app in Termux on an android phone(like I do). The differences are that in the android version, I do *not* use VLC, because of compatibility issues and such. I use the [`play-audio` package](https://github.com/termux/play-audio) which can be installed by running:
