@@ -43,7 +43,6 @@ def downloadSong(songTitle: str):
     browser.get(downloadLink)
 
     downloadLink = re.search("(?P<url>https?://[^\s]+)", browser.find_element_by_xpath("/html/body/div[2]/div/div[2]/button").get_attribute('onclick')).group("url").split("'")[0]
-    print(downloadLink)
     browser.quit()
 
     r = requests.get(downloadLink)
