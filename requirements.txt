@@ -1,4 +1,4 @@
-mutagen
+mutagen~=1.44.0
 youtube_dl
 beautifulsoup4==4.8.2
 certifi==2019.11.28
@@ -11,3 +11,4 @@ termcolor==1.1.0
 urllib3==1.25.8
 youtube_search
 python-vlc==3.0.7110
+selenium~=3.141.0
