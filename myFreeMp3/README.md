@@ -1,5 +1,5 @@
 # myFreeMp3
-_Downloads songs from [MyFreeMp3v.com]('https://myfreemp3v.com')_
+_Downloads songs from [MyFreeMp3v.com](https://myfreemp3v.com)_
 Usage:
 ```python
 import myFreeMp3
