@@ -1,4 +1,5 @@
 import re
+import os
 import time
 import requests
 
@@ -19,7 +20,7 @@ def wait_until(somepredicate, timeout, period=0.25):
 def downloadSong(songTitle: str):
     options = ChromeOptions()
     options.add_argument("--headless")
-    browser = webdriver.Chrome(executable_path='/Users/nbroyles/.drivers/chromedriver', options=options)
+    browser = webdriver.Chrome(executable_path='/Users/nbroyles/.drivers/chromedriver', options=options) if os.path.exists("/Users/nbroyles/.drivers/chromedriver") else webdriver.Chrome(options=options)
     browser.get('https://myfreemp3v.com/')
     actions = ActionChains(browser)
 
