@@ -1,6 +1,6 @@
 # myFreeMp3
 _Downloads songs from [MyFreeMp3v.com](https://myfreemp3v.com)_  
-Usage:  
+## Usage:  
 ```python
 import myFreeMp3
 # Create a downloader object using the the chrome selenium driver
