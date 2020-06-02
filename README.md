@@ -21,5 +21,8 @@ Don't worry about this directory unless you are trying to use this app in Termux
 pkg install play-audio
 ```
 
+## MyFreeMp3
+Alternative method of downloading songs via selenium. It's faster than youtube-dl. Read about it [here](https://github.com/noahbroyles/Music/blob/master/myFreeMp3/README.md).
+
 ## User Manual
 [Right here](https://github.com/noahbroyles/Music/blob/master/user-manual.md)
