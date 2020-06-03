@@ -51,5 +51,5 @@ def downloadSong(songTitle: str):
 
     # Download the song and save it
     r = requests.get(downloadLink)
-    with open(f'{songTitle}.mp3', 'wb') as f:
+    with open(f'{songTitle.strip(" ")}.mp3', 'wb') as f:
         f.write(r.content)
