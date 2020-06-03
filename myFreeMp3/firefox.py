@@ -1,3 +1,4 @@
+from os import path
 import re
 import time
 import requests
@@ -20,7 +21,8 @@ def downloadSong(songTitle: str):
     # Create browser
     options = Options()
     options.headless = True
-    browser = webdriver.Firefox(options=options)
+    homeDir = path.expanduser('~')
+    browser = webdriver.Firefox(executable_path=f"{homeDir}/.drivers/geckodriver", options=options) if path.exists(f"{homeDir}/.drivers/geckodriver") else webdriver.Firefox(options=options)
     browser.get('https://myfreemp3v.com/')
     actions = ActionChains(browser)
 
@@ -49,5 +51,5 @@ def downloadSong(songTitle: str):
 
     # Download the song and save it
     r = requests.get(downloadLink)
-    with open(f'{songTitle}.mp3', 'wb') as f:
+    with open(f'{songTitle.strip(" ")}.mp3', 'wb') as f:
         f.write(r.content)
