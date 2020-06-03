@@ -13,4 +13,11 @@ fdl = myFreeMp3.SongDownloader('firefox')
 # Downloads 'All about that Bass' from the site and saves it as 'All about that Bass.mp3' 
 fdl.download('All about that Bass')
 ```
-The script will save the song in the same directory as the `myFreeMp3` package, with the exact name of the song you searched for, with `.mp3` extension. 
+The script will save the song in the same directory as the `myFreeMp3` package, with the exact name of the song you searched for, with `.mp3` extension.   
+This program assumes that you have the [`chromedriver`](https://chromedriver.chromium.org/) or [`geckodriver`](https://github.com/mozilla/geckodriver/releases) (for Firefox) in a `.drivers` directory in your home folder, or in your system path.
+```
+$HOME
+|__.drivers
+    ├── chromedriver
+    └── geckodriver
+```
