@@ -22,4 +22,4 @@ $HOME
     └── geckodriver
 ```
 <br>
-<sub>You are responsible for any music downloaded in breach of copyright. This is just the tool.</sub>
+<sub>You are responsible for any music downloaded in breach of copyright. This is just a tool.</sub>
