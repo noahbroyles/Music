@@ -20,6 +20,10 @@ def wait_until(somepredicate, timeout, period=0.25):
     return False
 
 
+def CamelCase(string):
+    return "".join(word.capitalize() for word in string.split(" "))
+
+
 def downloadSong(songTitle: str):
     # Create browser
     if browserName == 'firefox':
@@ -62,5 +66,5 @@ def downloadSong(songTitle: str):
 
     # Download the song and save it
     r = requests.get(downloadLink)
-    with open(f'{songTitle.strip(" ")}.mp3', 'wb') as f:
+    with open(f'{CamelCase(songTitle)}.mp3', 'wb') as f:
         f.write(r.content)
