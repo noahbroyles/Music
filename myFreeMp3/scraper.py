@@ -21,7 +21,7 @@ def wait_until(somepredicate, timeout, period=0.25):
 
 
 def CamelCase(string):
-    return "".join(word.capitalize() for word in string.split(" "))
+    return " ".join(word.capitalize() for word in string.split(" "))
 
 
 def downloadSong(songTitle: str):
