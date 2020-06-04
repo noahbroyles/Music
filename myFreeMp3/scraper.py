@@ -1,12 +1,15 @@
-from os import path
 import re
 import time
 import requests
+from os import path
 
 from selenium import webdriver
-from selenium.webdriver.firefox.options import Options
+from selenium.webdriver import ChromeOptions
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.firefox.options import Options as FOptions
+
+browserName = 'chrome'
 
 
 def wait_until(somepredicate, timeout, period=0.25):
@@ -19,12 +22,20 @@ def wait_until(somepredicate, timeout, period=0.25):
 
 def downloadSong(songTitle: str):
     # Create browser
-    options = Options()
-    options.headless = True
-    homeDir = path.expanduser('~')
-    browser = webdriver.Firefox(executable_path=f"{homeDir}/.drivers/geckodriver", options=options) if path.exists(f"{homeDir}/.drivers/geckodriver") else webdriver.Firefox(options=options)
-    browser.get('https://myfreemp3v.com/')
-    actions = ActionChains(browser)
+    if browserName == 'firefox':
+        options = FOptions()
+        options.headless = True
+        homeDir = path.expanduser('~')
+        browser = webdriver.Firefox(executable_path=f"{homeDir}/.drivers/geckodriver", options=options) if path.exists(f"{homeDir}/.drivers/geckodriver") else webdriver.Firefox(options=options)
+        browser.get('https://myfreemp3v.com/')
+        actions = ActionChains(browser)
+    elif browserName == 'chrome':
+        options = ChromeOptions()
+        options.add_argument("--headless")
+        homeDir = path.expanduser("~")
+        browser = webdriver.Chrome(executable_path=f'{homeDir}/.drivers/chromedriver', options=options) if path.exists(f"{homeDir}/.drivers/chromedriver") else webdriver.Chrome(options=options)
+        browser.get('https://myfreemp3v.com/')
+        actions = ActionChains(browser)
 
     # Search for song
     searchBar = browser.find_element_by_id('query')

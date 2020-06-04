@@ -1,10 +1,7 @@
-from . import chrome
-from . import firefox
+from . import scraper
 
 
 class SongDownloader:
-    def __init__(self, browser):
-        if browser.lower() == 'chrome':
-            self.download = chrome.downloadSong
-        elif browser.lower() == 'firefox':
-            self.download = firefox.downloadSong
+    def __init__(self, browser='chrome'):
+        scraper.browserName = browser
+        self.download = scraper.downloadSong
