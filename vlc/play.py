@@ -20,7 +20,7 @@ actions = colored("play", "green") + "        > play downloaded songs\n" \
           + colored("editpls", "green") + "     > edit an existing playlist"
 
 
-def getAllSongs():
+def getAllSongs() -> list:
     return sorted([s for s in os.listdir() if s.endswith('.mp3')])
 
 
@@ -134,10 +134,15 @@ def shuffleSongs():
     print()
     print('Shuffling songs... type "' + colored('skip', "yellow") + '" to skip one')
     playableSongs = songNames.copy()
+    playedSongs = []
     while len(playableSongs) > 0:
-        playingSong = random.choice(playableSongs)
-        playSong(playingSong)
-        playableSongs.remove(playingSong)
+        currentSong = random.choice(playableSongs)
+        playSong(currentSong)
+        playableSongs.remove(currentSong)
+        playedSongs.append(currentSong)
+        
+        # check for new songs
+        playableSongs += [song for song in getAllSongs() if ((song not in playedSongs) and (song not in playableSongs))]
 
 
 def createPlaylist(playlistName=None):
