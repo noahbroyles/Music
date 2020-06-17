@@ -61,7 +61,7 @@ def downloadSong(songTitle: str):
     browser.get(download_link)
 
     # Get final download link
-    downloadLink = re.search("(?P<url>https?://[^\s]+)", browser.find_element_by_xpath("/html/body/div[2]/div/div[2]/button").get_attribute('onclick')).group("url").split("'")[0]
+    downloadLink = re.search("(?P<url>https?://[^\s]+)", browser.find_element_by_xpath('//*[@id="footer"]/div/div/button').get_attribute('onclick')).group("url").split("'")[0]
     browser.quit()
 
     # Download the song and save it
