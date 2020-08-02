@@ -28,14 +28,14 @@ def downloadSong(songTitle: str):
     # Create browser
     if browserName == 'firefox':
         options = FOptions()
-        options.headless = True
+        #options.headless = True
         homeDir = path.expanduser('~')
         browser = webdriver.Firefox(executable_path=f"{homeDir}/.drivers/geckodriver", options=options) if path.exists(f"{homeDir}/.drivers/geckodriver") else webdriver.Firefox(options=options)
         browser.get('https://myfreemp3v.com/')
         actions = ActionChains(browser)
     elif browserName == 'chrome':
         options = ChromeOptions()
-        options.add_argument("--headless")
+        #options.add_argument("--headless")
         homeDir = path.expanduser("~")
         browser = webdriver.Chrome(executable_path=f'{homeDir}/.drivers/chromedriver', options=options) if path.exists(f"{homeDir}/.drivers/chromedriver") else webdriver.Chrome(options=options)
         browser.get('https://myfreemp3v.com/')
@@ -50,18 +50,14 @@ def downloadSong(songTitle: str):
     # Wait until page loads
     def readyToProceed():
         try:
-            _ = browser.find_element_by_xpath("/html/body/div[2]/div[2]/div[2]/li[1]/div/a[3]")
+            _ = browser.find_element_by_xpath('//*[@id="result"]/div[2]/li[1]/div/a[3]')
         except NoSuchElementException:
             return False
         return True
     wait_until(readyToProceed, timeout=20)
 
     # Click download button
-    download_link = re.search("(?P<url>https?://[^\s]+)", browser.find_element_by_xpath("/html/body/div[2]/div[2]/div[2]/li[1]/div/a[3]").get_attribute('onclick')).group("url").split("'")[0]
-    browser.get(download_link)
-
-    # Get final download link
-    downloadLink = re.search("(?P<url>https?://[^\s]+)", browser.find_element_by_xpath('//*[@id="footer"]/div/div/button').get_attribute('onclick')).group("url").split("'")[0]
+    downloadLink = re.search("(?P<url>https?://[^\s]+)", browser.find_element_by_xpath('//*[@id="result"]/div[2]/li[1]/div/a[3]').get_attribute('onclick')).group("url").split("'")[0]
     browser.quit()
 
     # Download the song and save it
