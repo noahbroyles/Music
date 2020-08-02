@@ -28,14 +28,14 @@ def downloadSong(songTitle: str):
     # Create browser
     if browserName == 'firefox':
         options = FOptions()
-        #options.headless = True
+        options.headless = True
         homeDir = path.expanduser('~')
         browser = webdriver.Firefox(executable_path=f"{homeDir}/.drivers/geckodriver", options=options) if path.exists(f"{homeDir}/.drivers/geckodriver") else webdriver.Firefox(options=options)
         browser.get('https://myfreemp3v.com/')
         actions = ActionChains(browser)
     elif browserName == 'chrome':
         options = ChromeOptions()
-        #options.add_argument("--headless")
+        options.add_argument("--headless")
         homeDir = path.expanduser("~")
         browser = webdriver.Chrome(executable_path=f'{homeDir}/.drivers/chromedriver', options=options) if path.exists(f"{homeDir}/.drivers/chromedriver") else webdriver.Chrome(options=options)
         browser.get('https://myfreemp3v.com/')
