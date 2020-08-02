@@ -12,3 +12,6 @@ urllib3==1.25.8
 youtube_search
 python-vlc==3.0.7110
 selenium~=3.141.0
+yturl~=2.0.2
+eyeD3~=0.9.5
+pydub~=0.24.1
