@@ -3,12 +3,17 @@ import re
 import sys
 import random
 import vlc
-import ytUrl
+from ytURL import urlFromQuery
 import selectors
 import youtube_dl
 import math
 from termcolor import colored
 from mutagen.mp3 import MP3
+from eyed3 import id3
+
+
+MUSIC_DIRECTORY = '/Users/nbroyles/Music/PythonMusic'
+
 
 actions = colored("play", "green") + "        > play downloaded songs\n" \
           + colored("shuffle", "green") + "     > shuffle downloaded songs\n" \
@@ -21,6 +26,7 @@ actions = colored("play", "green") + "        > play downloaded songs\n" \
 
 
 def getAllSongs() -> list:
+    os.chdir(MUSIC_DIRECTORY)
     return sorted([s for s in os.listdir() if s.endswith('.mp3')])
 
 
@@ -43,6 +49,34 @@ def songTime(seconds):
     if len(str(s)) == 1:
         s = '0' + str(s)
     return str(minutes) + ":" + str(s)
+
+
+def tagSongs():
+    ################################################
+    #            Genre/Artist/Album/Song.mp3       #
+    ################################################
+    songs = getAllSongs()
+    for s in songs:
+        tag = id3.Tag()
+        tag.parse(s)
+
+        # Genre
+        genre = "Unknown Genre" if tag.genre is None else str(tag.genre) if not str(tag.genre).startswith("(32)") else str(tag.genre)[4:]
+        if not os.path.exists(f"{MUSIC_DIRECTORY}/{genre}"):
+            os.mkdir(f"{MUSIC_DIRECTORY}/{genre}")
+
+        # Artist
+        artist = "Unknown Artist" if tag.artist is None else str(tag.artist)
+        if not os.path.exists(f"{MUSIC_DIRECTORY}/{genre}/{artist}"):
+            os.mkdir(f"{MUSIC_DIRECTORY}/{genre}/{artist}")
+
+        # Album
+        album = "Unknown Album" if tag.album is None else str(tag.album)
+        if not os.path.exists(f"{MUSIC_DIRECTORY}/{genre}/{artist}/{album}"):
+            os.mkdir(f"{MUSIC_DIRECTORY}/{genre}/{artist}/{album}")
+
+        # Move the song to it's newly made directory
+        os.rename(f"{MUSIC_DIRECTORY}/{s}", f"{MUSIC_DIRECTORY}/{genre}/{artist}/{album}/{s}")
 
 
 def playSong(path):
@@ -115,7 +149,7 @@ def download(url, play=False):
 
 
 def searchForSong(search):
-    url = ytUrl.urlFromQuery(search)
+    url = urlFromQuery(search)
     if url is not None:
         print("Your URL is:", colored(url, "blue"))
         if (input("Would you like to download " + colored(search, "green") + "? ")).lower()[0] == 'y':
