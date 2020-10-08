@@ -8,7 +8,7 @@ lxml==4.5.0
 requests==2.23.0
 soupsieve==2.0
 termcolor==1.1.0
-urllib3==1.25.8
+urllib3==1.25.9
 youtube_search
 python-vlc==3.0.7110
 selenium~=3.141.0
