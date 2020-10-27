@@ -15,9 +15,9 @@ def urlFromQuery(query):
     videos = [v for v in results]
     for vid in videos:
         if "lyric" in vid['title'].lower():
-            url = "https://www.youtube.com" + vid["link"]
+            url = "https://www.youtube.com" + vid['url_suffix']
             return url
-    return "https://www.youtube.com" + videos[0]["link"]
+    return "https://www.youtube.com" + videos[0]['url_suffix']
 
 
 if __name__ == "__main__":
