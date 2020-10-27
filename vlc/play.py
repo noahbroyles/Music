@@ -12,7 +12,7 @@ from mutagen.mp3 import MP3
 from eyed3 import id3
 
 
-MUSIC_DIRECTORY = '/Users/nbroyles/Music/PythonMusic'
+MUSIC_DIRECTORY = os.curdir
 
 
 actions = colored("play", "green") + "        > play downloaded songs\n" \
