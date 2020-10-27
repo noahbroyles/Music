@@ -9,7 +9,7 @@ requests==2.23.0
 soupsieve==2.0
 termcolor==1.1.0
 urllib3==1.25.9
-youtube_search
+youtube-search==1.1.0
 python-vlc==3.0.7110
 selenium~=3.141.0
 yturl~=2.0.2
