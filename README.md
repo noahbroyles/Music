@@ -1,3 +1,5 @@
+[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/noahbroyles/Music)
+
 # Music
 ![Picture of music App](https://github.com/noahbroyles/Music/blob/master/images/music.png?raw=true)
 ## Playing music in Python3
