@@ -1,23 +1,16 @@
 from youtube_search import YoutubeSearch
-import json
 import requests
 import sys
 
 
 def urlFromQuery(query):
     try:
-        results = YoutubeSearch(query, max_results=5).to_json()
+        results = YoutubeSearch(query, max_results=2).to_dict()
     except requests.exceptions.ConnectionError:
         print("There was an error connecting to YouTube. Check Proxy/Internet settings.")
         sys.exit()
-    data = json.loads(results)
-    results = data['videos']
     videos = [v for v in results]
-    for vid in videos:
-        if "lyric" in vid['title'].lower():
-            url = "https://www.youtube.com" + vid['url_suffix']
-            return url
-    return "https://www.youtube.com" + videos[0]['url_suffix']
+    return "https://www.youtube.com" + videos[0]['url']
 
 
 if __name__ == "__main__":
