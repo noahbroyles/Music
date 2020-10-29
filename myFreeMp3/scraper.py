@@ -56,7 +56,6 @@ def downloadSong(songTitle: str):
     # Click download button
     songID = browser.find_element_by_xpath('//*[@id="result"]/div[2]/li[1]/a[1]').get_attribute('data-src').split('/')[-1]
     downloadLink = f"https://free.mp3-download.best/{songID}"
-    print(downloadLink)
     browser.quit()
 
     # Download the song and save it
