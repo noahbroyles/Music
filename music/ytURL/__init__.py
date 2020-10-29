@@ -10,7 +10,7 @@ def urlFromQuery(query):
         print("There was an error connecting to YouTube. Check Proxy/Internet settings.")
         sys.exit()
     videos = [v for v in results]
-    return "https://www.youtube.com" + videos[0]['url']
+    return videos[0]['url']
 
 
 if __name__ == "__main__":
