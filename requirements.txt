@@ -1,5 +1,5 @@
 mutagen~=1.44.0
-youtube_dl
+youtube-dl==2020.9.20
 beautifulsoup4==4.8.2
 certifi==2019.11.28
 chardet==3.0.4
