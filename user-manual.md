@@ -3,17 +3,18 @@ Before starting, install the project requirements from `requierments.txt`.
 ```commandline
 $ pip3 install -r requirements.txt
 ```
-Also note that it is important(for now) to keep your `mp3` and `pls` files in the same directory as `play.py`.
+Also note that there is a `MUSIC_DIRECTORY` variable on line 14 which defaults to `os.curdir`. You can change this to wherever you keep your music, and the music player will play songs out of that directory. 
 If you would like to use my provided songs and playlists(which I highly recommend), run this pro command(_Linux and Mac Only_):
 ```commandline
-$ mv songs/* main/. && rm -r songs/ && cd main/
+$ mv songs/* . && rm -fr songs
 ```
-This will move some songs and playlists in with `play.py`, which is great. That means you can get right to the 🎵🎵🎵.
+This will move some songs and playlists into the main project directory, which is great. That means you can get right to the 🎵🎵🎵.
 ## Basic Use:
 To start the program, run:
 ```commandline
-$ python3 play.py
+$ python3 music
 ```
+This runs the whole `music` Python module, instead of just a Python _file_ like people normally do. Why? Because I felt like doing it that way.
 The program will prompt you to enter a command. The different commands are:
 ```
 play        > play downloaded mp3 songs
@@ -69,6 +70,7 @@ As you go through the songs in the playlist, enter a new song number to *replace
   
   
 # Troubleshooting:
+![too bad.](https://camo.githubusercontent.com/df781f87da2f2db87b5cc3125d5459bc70812112/687474703a2f2f64726f70732e6b796c65666f782e63612f31637147502b) <br>
 _Read the da*n code and make a Pull Request._ Thanks.
  
  

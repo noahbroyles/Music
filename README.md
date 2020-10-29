@@ -10,11 +10,10 @@ To install all the requirements for this project, run:
 ```
 $ pip3 install -r requirements.txt
 ```
-Also, for the VLC version, VLC Media Player is required to be installed on your computer. You can download it for MacOS, Linux or Windows(I guess) from [videolan](https://www.videolan.org/vlc/index.html).  
-To run the main file:
+VLC Media Player is required to be installed on your computer. You can download it for MacOS, Linux or Windows(I guess) from [videolan](https://www.videolan.org/vlc/index.html).  
+The `music` module is the main module. To run the music player, type:
 ```
-$ cd vlc/
-$ python3 play.py
+$ python3 music
 ```
 
 ## MyFreeMp3
