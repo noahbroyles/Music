@@ -21,7 +21,8 @@ class YoutubeSearch:
             return results[: self.max_results]
         return results
 
-    def parse_html(self, response):
+    @staticmethod
+    def parse_html(response):
         results = []
         start = (
             response.index('window["ytInitialData"]')
@@ -40,6 +41,7 @@ class YoutubeSearch:
             res = {}
             if "videoRenderer" in video.keys():
                 video_data = video.get("videoRenderer", {})
+                res["title"] = video_data.get("title", {}).get("runs", [[{}]])[0].get("text", None)
                 res["id"] = video_data.get("videoId", None)
                 res["url"] = f'https://youtube.com/watch?v={res["id"]}'
                 results.append(res)
