@@ -1,5 +1,5 @@
 # myFreeMp3
-_Downloads songs from [MyFreeMp3v.com](https://myfreemp3v.com)_  
+_Downloads songs from [MyFreeMp3v.vip](https://myfreemp3v.vip)_  
 ## Usage:  
 ```python
 import myFreeMp3
@@ -18,7 +18,7 @@ fdl.download('All about that Bass')
 dl = myFreeMp3.SongDownloader() # Uses chrome by default
 ```
 The script will save the song in the same directory as the `myFreeMp3` package, under the camel cased(with spaces) name of the song you searched for, with `.mp3` extension.   
-This program assumes that you have the [`chromedriver`](https://chromedriver.chromium.org/) or [`geckodriver`](https://github.com/mozilla/geckodriver/releases) (for Firefox) in a `.drivers` directory in your home folder, or in your system path.
+This program will look for the [`chromedriver`](https://chromedriver.chromium.org/) or [`geckodriver`](https://github.com/mozilla/geckodriver/releases) (for Firefox) in a `.drivers` directory in your home folder, or in your system path.
 ```
 $HOME
 |__.drivers
