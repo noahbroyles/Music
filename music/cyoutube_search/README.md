@@ -11,7 +11,7 @@ For a basic search (and all of the current functionality), you can use the searc
 ```pip install youtube-search```
 
 ```python
-from youtube_search import YoutubeSearch
+from music.youtube_search import YoutubeSearch
 
 results = YoutubeSearch('search terms', max_results=10).to_json()
 
