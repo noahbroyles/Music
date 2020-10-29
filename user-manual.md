@@ -67,7 +67,7 @@ As you go through the songs in the playlist, enter a new song number to *replace
   
   
 # Troubleshooting:
-![too bad.](https://camo.githubusercontent.com/df781f87da2f2db87b5cc3125d5459bc70812112/687474703a2f2f64726f70732e6b796c65666f782e63612f31637147502b) <br>
+![too bad.](https://github.com/noahbroyles/Music/blob/master/images/too-fn-bad.gif?raw=true)  
 _Read the da*n code and make a Pull Request._ Thanks.
  
  
