@@ -1,12 +1,12 @@
-from cyoutube_search import YoutubeSearch
-from requests.exceptions import ConnectionError
+from youtube_search import YoutubeSearch
+import requests
 import sys
 
 
 def urlFromQuery(query):
     try:
         results = YoutubeSearch(query, max_results=2).to_dict()
-    except ConnectionError:
+    except requests.exceptions.ConnectionError:
         print("There was an error connecting to YouTube. Check Proxy/Internet settings.")
         sys.exit()
     videos = [v for v in results]
