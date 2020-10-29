@@ -1,4 +1,4 @@
-from youtube_search import YoutubeSearch
+from cyoutube_search import YoutubeSearch
 import requests
 import sys
 
