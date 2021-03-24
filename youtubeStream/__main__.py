@@ -82,12 +82,15 @@ def playStream(url):
             elif do == "play":
                 player.play()
             elif do == "queue":
-                songToQueue = input("Enter the name or URL for the song you wish to queue: ").strip()
-                if songToQueue.strip().startswith("https://"):
-                    # I guess it's a URL my dude
-                    queue(url=songToQueue)
-                else:
-                    queue(songTitle=songToQueue)
+                try:
+                    songToQueue = input("Enter the name or URL for the song you wish to queue: ").strip()
+                    if songToQueue.strip().startswith("https://"):
+                        # I guess it's a URL my dude
+                        queue(url=songToQueue)
+                    else:
+                        queue(songTitle=songToQueue)
+                except KeyboardInterrupt:
+                    pass
             elif do == "stop" or do == "skip":
                 player.stop()
                 return
