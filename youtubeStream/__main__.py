@@ -2,14 +2,11 @@ import math
 import selectors
 import sys
 
-import requests
 import vlc
 import pafy
 import random
 import tubeParser
 from termcolor import colored
-
-from ytURL import urlFromQuery
 
 
 print(colored("YOUTUBE MUSIC STREAMER ROARING TO LIFE...", "blue"))
@@ -40,15 +37,15 @@ def queue(url=None, songTitle=None):
     if url:
         songList.insert(0, url)
         song = pafy.new(url)
-        print(colored(f"Queued {song.title}"))
+        print(colored(f"Queued {song.title}", "green"))
     if songTitle:
-        url = urlFromQuery(songTitle)
-        if url is not None:
-            songList.insert(0, url)
-            song = pafy.new(url)
-            print(colored(f"Queued {song.title}"))
-        else:
-            print(colored(f"{songTitle} could not be found. Tray again with a different search term.", "red"))
+        # url = urlFromQuery(songTitle)
+        # if url is not None:
+        #     songList.insert(0, url)
+        #     song = pafy.new(url)
+        #     print(colored(f"Queued {song.title}", "green"))
+        # else:
+        print(colored(f"{songTitle} could not be found. Tray again with a different search term.", "red"))
 
 
 def main():
