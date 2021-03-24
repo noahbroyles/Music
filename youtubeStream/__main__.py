@@ -5,7 +5,7 @@ import sys
 import vlc
 import pafy
 import random
-import tubeParser
+import tubehelper
 from termcolor import colored
 
 
@@ -19,7 +19,7 @@ sel = selectors.DefaultSelector()
 sel.register(sys.stdin.fileno(), selectors.EVENT_READ)
 
 psUrl = "https://www.youtube.com/playlist?list=PLHNntV_whvgol2o__jwedNtjVJSdQQFhD"
-songList = tubeParser.getURLsFromPlaylist(psUrl)
+songList = tubehelper.getURLsFromPlaylist(psUrl)
 random.shuffle(songList)
 
 
@@ -39,13 +39,13 @@ def queue(url=None, songTitle=None):
         song = pafy.new(url)
         print(colored(f"Queued {song.title}", "green"))
     if songTitle:
-        # url = urlFromQuery(songTitle)
-        # if url is not None:
-        #     songList.insert(0, url)
-        #     song = pafy.new(url)
-        #     print(colored(f"Queued {song.title}", "green"))
-        # else:
-        print(colored(f"{songTitle} could not be found. Tray again with a different search term.", "red"))
+        url = tubehelper.URLFromQuery(songTitle)
+        if url is not None:
+            songList.insert(0, url)
+            song = pafy.new(url)
+            print(colored(f"Queued {song.title}", "green"))
+        else:
+            print(colored(f"{songTitle} could not be found. Tray again with a different search term.", "red"))
 
 
 def main():
@@ -54,7 +54,7 @@ def main():
 
 def playStream(url):
     video = pafy.new(url)
-    print(colored("Playing ", color="green") + colored(f"\x1b]8;;{url}\a{video.title}\x1b]8;;\a ({tubeParser.getVideoID(url)})", color="blue") + " --- " + colored(songTime(video.length), "blue"))
+    print(colored("Playing ", color="green") + colored(f"\x1b]8;;{url}\a{video.title}\x1b]8;;\a ({tubehelper.getVideoID(url)})", color="blue") + " --- " + colored(songTime(video.length), "blue"))
     best = video.getbest()
 
     media = instance.media_new(best.url)
