@@ -37,13 +37,13 @@ def queue(url=None, songTitle=None):
     if url:
         songList.insert(0, url)
         song = pafy.new(url)
-        print(colored(f"Queued {song.title}", "green"))
+        print(colored(f"Queued {colored(song.title, 'blue')}", "green"))
     if songTitle:
         url = tubehelper.URLFromQuery(songTitle)
         if url is not None:
             songList.insert(0, url)
             song = pafy.new(url)
-            print(colored(f"Queued {song.title}", "green"))
+            print(colored(f"Queued {colored(song.title, 'blue')}", "green"))
         else:
             print(colored(f"{songTitle} could not be found. Tray again with a different search term.", "red"))
 
