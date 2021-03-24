@@ -1,10 +1,16 @@
+import math
+import selectors
+import sys
 
+import requests
 import vlc
 import pafy
-import time
 import random
 import tubeParser
 from termcolor import colored
+
+from ytURL import urlFromQuery
+
 
 print(colored("YOUTUBE MUSIC STREAMER ROARING TO LIFE...", "blue"))
 
@@ -12,25 +18,92 @@ print(colored("YOUTUBE MUSIC STREAMER ROARING TO LIFE...", "blue"))
 instance = vlc.Instance("--no-video")
 player = instance.media_player_new()
 
-psUrl = "https://www.youtube.com/watch?v=UQ8cXH7qbVU&list=PLHNntV_whvgol2o__jwedNtjVJSdQQFhD"
-songs = tubeParser.getURLsFromPlaylist(psUrl)
-random.shuffle(songs)
+sel = selectors.DefaultSelector()
+sel.register(sys.stdin.fileno(), selectors.EVENT_READ)
 
-for song in songs:
+psUrl = "https://www.youtube.com/playlist?list=PLHNntV_whvgoyzGeMT4YK61ihyQUl-QaZ"
+songList = tubeParser.getURLsFromPlaylist(psUrl)
+random.shuffle(songList)
+
+
+def songTime(seconds):
+    bal = seconds
+    minutes = int(str((seconds / 60)).split('.')[0])
+    bal -= (minutes * 60)
+    s = int(math.floor(bal))
+    if len(str(s)) == 1:
+        s = '0' + str(s)
+    return str(minutes) + ":" + str(s)
+
+
+def queue(url=None, songTitle=None):
+    if url:
+        songList.insert(0, url)
+        song = pafy.new(url)
+        print(colored(f"Queued {song.title}"))
+    if songTitle:
+        url = urlFromQuery(songTitle)
+        if url is not None:
+            songList.insert(0, url)
+            song = pafy.new(url)
+            print(colored(f"Queued {song.title}"))
+        else:
+            print(colored(f"{songTitle} could not be found. Tray again with a different search term.", "red"))
+
+
+def main():
+    pass
+
+
+def playStream(url):
+    video = pafy.new(url)
+    print(colored("Playing ", color="green") + colored(f"\x1b]8;;{url}\a{video.title}\x1b]8;;\a ({tubeParser.getVideoID(url)})", color="blue") + " --- " + colored(songTime(video.length), "blue"))
+    best = video.getbest()
+
+    media = instance.media_new(best.url)
+    player.set_media(media)
+
+    # start playing video
+    player.play()
+
     try:
-        video = pafy.new(song)
-        print(colored("Playing ", color="green") + colored(f"\x1b]8;;{song}\a{video.title}\x1b]8;;\a ({tubeParser.getVideoID(song)})", color="blue"))
-        best = video.getbest()
-
-        media = instance.media_new(best.url)
-        player.set_media(media)
-
-        # start playing video
-        player.play()
-
-        while player.get_state() != vlc.State.Ended:
-            time.sleep(0.7)
-    except KeyboardInterrupt:
+        while True:
+            sys.stdout.write('> ')
+            sys.stdout.flush()
+            # Poll for command input as long as the player hasn't reached the end
+            while player.get_state() != vlc.State.Ended:  # It's still running
+                if sel.select(0.1):
+                    break  # Input available - time to read input, so stop polling
+            else:
+                print()  # For beauty
+                break  # Quit the command handling loop
+            do = input().lower()
+            if do == "time":
+                print(colored(songTime(player.get_time() / 1000), "blue"))
+            elif do == "pause":
+                player.pause()
+            elif do == "play":
+                player.play()
+            elif do == "queue":
+                songToQueue = input("Enter the name or URL for the song you wish to queue: ").strip()
+                if songToQueue.strip().startswith("https://"):
+                    # I guess it's a URL my dude
+                    queue(url=songToQueue)
+                else:
+                    queue(songTitle=songToQueue)
+            elif do == "stop" or do == "skip":
+                player.stop()
+                return
+            elif do == "exit":
+                player.stop()
+                del media
+                main()
+    except EOFError:
         player.stop()
-    songs.remove(song)
-    del media
+        sys.exit()
+
+
+while len(songList) > 0:
+    currentSong = songList[0]
+    playStream(currentSong)
+    songList.remove(currentSong)
