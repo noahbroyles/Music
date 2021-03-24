@@ -21,7 +21,7 @@ player = instance.media_player_new()
 sel = selectors.DefaultSelector()
 sel.register(sys.stdin.fileno(), selectors.EVENT_READ)
 
-psUrl = "https://www.youtube.com/playlist?list=PLHNntV_whvgoyzGeMT4YK61ihyQUl-QaZ"
+psUrl = "https://www.youtube.com/playlist?list=PLHNntV_whvgol2o__jwedNtjVJSdQQFhD"
 songList = tubeParser.getURLsFromPlaylist(psUrl)
 random.shuffle(songList)
 
