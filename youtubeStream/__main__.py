@@ -23,6 +23,15 @@ songList = tubehelper.getURLsFromPlaylist(psUrl)
 random.shuffle(songList)
 
 
+def getPafyVideo(url):
+    try:
+        video = pafy.new(url)
+        return video
+    except OSError:
+        print(colored(f"{url} is a song only meant for YouTube Music Premium users. Sorry buddy.", "red"))
+        return 0
+
+
 def songTime(seconds):
     bal = seconds
     minutes = int(str((seconds / 60)).split('.')[0])
@@ -36,13 +45,17 @@ def songTime(seconds):
 def queue(url=None, songTitle=None):
     if url:
         songList.insert(0, url)
-        song = pafy.new(url)
+        song = getPafyVideo(url)
+        if not song:
+            return
         print(colored(f"Queued {colored(song.title, 'blue')}", "green"))
     if songTitle:
         url = tubehelper.URLFromQuery(songTitle)
         if url is not None:
             songList.insert(0, url)
             song = pafy.new(url)
+            if not song:
+                return
             print(colored(f"Queued {colored(song.title, 'blue')}", "green"))
         else:
             print(colored(f"{songTitle} could not be found. Tray again with a different search term.", "red"))
@@ -53,7 +66,9 @@ def main():
 
 
 def playStream(url):
-    video = pafy.new(url)
+    video = getPafyVideo(url)
+    if not video:
+        return
     print(colored("Playing ", color="green") + colored(f"\x1b]8;;{url}\a{video.title}\x1b]8;;\a ({tubehelper.getVideoID(url)})", color="blue") + " --- " + colored(songTime(video.length), "blue"))
     best = video.getbest()
 
