@@ -8,7 +8,6 @@ import random
 import tubehelper
 from termcolor import colored
 
-
 print(colored("YOUTUBE MUSIC STREAMER ROARING TO LIFE...", "blue"))
 
 # creating vlc media player
@@ -21,6 +20,8 @@ sel.register(sys.stdin.fileno(), selectors.EVENT_READ)
 psUrl = "https://www.youtube.com/playlist?list=PLHNntV_whvgol2o__jwedNtjVJSdQQFhD"
 songList = tubehelper.getURLsFromPlaylist(psUrl)
 random.shuffle(songList)
+
+songQueue = []
 
 
 def getPafyVideo(url):
@@ -44,7 +45,7 @@ def songTime(seconds):
 
 def queue(url=None, songTitle=None):
     if url:
-        songList.insert(0, url)
+        songQueue.append(url)
         song = getPafyVideo(url)
         if not song:
             return
@@ -52,7 +53,7 @@ def queue(url=None, songTitle=None):
     if songTitle:
         url = tubehelper.URLFromQuery(songTitle)
         if url is not None:
-            songList.insert(0, url)
+            songQueue.append(url)
             song = pafy.new(url)
             if not song:
                 return
@@ -61,6 +62,7 @@ def queue(url=None, songTitle=None):
             print(colored(f"{songTitle} could not be found. Tray again with a different search term.", "red"))
 
 
+# TODO: Add an actual main method. Right it just shuffles from a playlist.
 def main():
     pass
 
@@ -118,7 +120,14 @@ def playStream(url):
         sys.exit()
 
 
-while len(songList) > 0:
-    currentSong = songList[0]
-    playStream(currentSong)
-    songList.remove(currentSong)
+while len(songList) > 0 or len(songQueue) > 0:
+    # If there are songs in the queue, play them first.
+    if songQueue:
+        currentSong = songQueue[0]
+        playStream(currentSong)
+        songQueue.remove(currentSong)
+    else:
+        # Otherwise, play from the normal order
+        currentSong = songList[0]
+        playStream(currentSong)
+        songList.remove(currentSong)
