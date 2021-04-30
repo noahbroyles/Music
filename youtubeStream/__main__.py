@@ -105,7 +105,7 @@ def queue(url=None, songTitle=None):
                 return
             print(colored(f"Queued {colored(song.title, 'blue')}", "green"))
         else:
-            print(colored(f"{songTitle} could not be found. Tray again with a different search term.", "red"))
+            print(colored(f"{songTitle} could not be found. Try again with a different search term.", "red"))
 
 
 def playStream(url):
