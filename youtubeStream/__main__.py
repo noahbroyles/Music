@@ -14,10 +14,14 @@ print(colored("YOUTUBE MUSIC STREAMER ROARING TO LIFE...", "blue"))
 
 actions = colored("play", "green") + "        > play song from url or search\n" \
           + colored("playls", "green") + "     > play a YouTube or local playlist in order\n" \
-          + colored("shuffle", "green") + "     > shuffle a YouTube or local playlist" + \
+          + colored("shuffle", "green") + "     > shuffle a YouTube or local playlist" \
           + colored("makepls", "green") + "     > make a new local playlist\n" \
           + colored("editpls", "green") + "     > edit an existing local playlist" \
           + colored("exit", "green") + "        > exit the player\n"
+
+# Whip out our JSON data
+with open("musicData.json", "r") as f:
+    jason = json.load(f)
 
 # creating vlc media player
 instance = vlc.Instance("--no-video")
@@ -26,19 +30,52 @@ player = instance.media_player_new()
 sel = selectors.DefaultSelector()
 sel.register(sys.stdin.fileno(), selectors.EVENT_READ)
 
-psUrl = "https://www.youtube.com/playlist?list=PLHNntV_whvgol2o__jwedNtjVJSdQQFhD"
-songList = tubehelper.getURLsFromPlaylist(psUrl)
-random.shuffle(songList)
-
 songQueue = []
 
+# TODO: Add an actual main method. Right it just shuffles from a playlist.
+def main():
+    while True:
+        print()
+        print('What would you like to do? ("' + colored('show', "yellow") + '" to show commands): ')
+        action = input("youtube-streamer ~ $ ")
+
+        if action == "show":
+            print("\n" + actions)
+
+        elif action == "playls":
+            local = input("YouTube or local playlist? [Y/l] ").lower()
+            if local.startswith("y") or local == "":
+                psUrl = input("Enter the YouTube Playlist URL or hit Enter to play saved playlists: ")
+                if psUrl != "":
+                    songList = tubehelper.getURLsFromPlaylist(psUrl)
+                    random.shuffle(songList)
+                else:
+                    # We be tryna play music from a saved youtube playlist
+
+
+                # We be playin' a YouTube PlayList
+                while len(songList) > 0 or len(songQueue) > 0:
+                    # If there are songs in the queue, play them first.
+                    if songQueue:
+                        currentSong = songQueue[0]
+                        playStream(currentSong)
+                        songQueue.remove(currentSong)
+                    else:
+                        # Otherwise, play from the normal order
+                        currentSong = songList[0]
+                        playStream(currentSong)
+                        songList.remove(currentSong)
+
+def saveJSON():
+    with open("musicData.json", "w") as f:
+        f.write(json.dumps(jason, indent=4))
 
 def getPafyVideo(url):
     try:
         video = pafy.new(url)
         return video
     except OSError:
-        print(colored(f"{url} is a song only meant for YouTube Music Premium users. Sorry buddy.", "red"))
+        print(colored(f"{url} is a song only meant for YouTube Music Premium users, or is otherwise unavailable. Sorry buddy.", "red"))
         return 0
 
 
@@ -69,23 +106,6 @@ def queue(url=None, songTitle=None):
             print(colored(f"Queued {colored(song.title, 'blue')}", "green"))
         else:
             print(colored(f"{songTitle} could not be found. Tray again with a different search term.", "red"))
-
-
-# TODO: Add an actual main method. Right it just shuffles from a playlist.
-def main():
-    while True:
-        print()
-        print('What would you like to do? ("' + colored('show', "yellow") + '" to show commands): ')
-        action = input("youtube-streamer ~ $ ")
-
-        if action == "show":
-            print("\n" + actions)
-
-        elif action == "playls":
-            local = input("YouTube or local playlist? [Y/l] ").lower()[0]
-            if local == "y" or local == "":
-                # We be playin' a YouTube PlayList
-                pass
 
 
 def playStream(url):
@@ -119,8 +139,6 @@ def playStream(url):
                 player.pause()
             elif do == "play":
                 player.play()
-            elif do:
-                pass
             elif do.startswith("queue") or do.startswith("q"):
                 if " " in do:
                     # They told us what to queue already
@@ -147,15 +165,5 @@ def playStream(url):
         player.stop()
         sys.exit()
 
-
-while len(songList) > 0 or len(songQueue) > 0:
-    # If there are songs in the queue, play them first.
-    if songQueue:
-        currentSong = songQueue[0]
-        playStream(currentSong)
-        songQueue.remove(currentSong)
-    else:
-        # Otherwise, play from the normal order
-        currentSong = songList[0]
-        playStream(currentSong)
-        songList.remove(currentSong)
+if __name__ == "__main__":
+    main()
