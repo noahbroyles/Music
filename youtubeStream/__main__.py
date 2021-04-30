@@ -45,13 +45,23 @@ def main():
         elif action == "playls":
             local = input("YouTube or local playlist? [Y/l] ").lower()
             if local.startswith("y") or local == "":
-                psUrl = input("Enter the YouTube Playlist URL or hit Enter to play saved playlists: ")
+                psUrl = input("Enter the YouTube Playlist URL or hit <Enter> to play saved playlists: ")
                 if psUrl != "":
                     songList = tubehelper.getURLsFromPlaylist(psUrl)
                     random.shuffle(songList)
                 else:
                     # We be tryna play music from a saved youtube playlist
-
+                    # Let's show them the options
+                    savedPlaylists = jason["savedYTPLS"]
+                    count = 1
+                    print("\nSaved Playlists:")
+                    for pls in savedPlaylists:
+                        print(colored(f"[{count}] ", "green") + colored(pls["name"], "blue"))
+                        count += 1
+                    print()
+                    plsNumber = int(input("Enter the playlist number you want to play: "))
+                    print(colored("Playing YouTube Playlist ", "green") + colored(f"\x1b]8;;{savedPlaylists[plsNumber-1]['url']}\a{savedPlaylists[plsNumber-1]['name']}\x1b]8;;\a", color="blue"))
+                    songList = tubehelper.getURLsFromPlaylist(savedPlaylists[plsNumber - 1]["url"])
 
                 # We be playin' a YouTube PlayList
                 while len(songList) > 0 or len(songQueue) > 0:
@@ -132,35 +142,43 @@ def playStream(url):
             else:
                 print()  # For beauty
                 break  # Quit the command handling loop
+
             do = input().lower().strip()
+
             if do == "time":
                 print(colored(songTime(player.get_time() / 1000), "blue"))
+
             elif do == "pause":
                 player.pause()
+
             elif do == "play":
                 player.play()
+
             elif do.startswith("queue") or do.startswith("q"):
-                if " " in do:
-                    # They told us what to queue already
-                    songToQueue = " ".join(do.split(" ")[1:])
-                else:
+                if " " not in do:
                     # Gotta ask 'em what they wanna hear
                     try:
                         songToQueue = input("Enter the name or URL for the song you wish to queue: ").strip()
-                        if songToQueue.strip().startswith("https://"):
-                            # I guess it's a URL my dude
-                            queue(url=songToQueue)
-                        else:
-                            queue(songTitle=songToQueue)
                     except KeyboardInterrupt:
                         pass
+                else:
+                    # They told us what to queue already
+                    songToQueue = " ".join(do.split(" ")[1:])
+                if songToQueue.strip().startswith("https://"):
+                    # I guess it's a URL my dude
+                    queue(url=songToQueue)
+                else:
+                    queue(songTitle=songToQueue)
+
             elif do == "stop" or do == "skip":
                 player.stop()
                 return
+
             elif do == "exit":
                 player.stop()
                 del media
                 main()
+
     except EOFError:
         player.stop()
         sys.exit()
