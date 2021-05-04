@@ -1,5 +1,16 @@
 {
     "savedYTPLS": [
-        {"name": "Aux at Work", "url": "https://www.youtube.com/playlist?list=PLHNntV_whvgol2o__jwedNtjVJSdQQFhD"}
+        {
+            "name": "Aux at Work",
+            "url": "https://www.youtube.com/playlist?list=PLHNntV_whvgol2o__jwedNtjVJSdQQFhD"
+        },
+        {
+            "name": "Country Yum",
+            "url": "https://www.youtube.com/playlist?list=PLHNntV_whvgpmj--BOoxFi1bErKdOxYqS"
+        },
+        {
+            "name": "Real Classical Music",
+            "url": "https://www.youtube.com/playlist?list=PLHNntV_whvgoyzGeMT4YK61ihyQUl-QaZ"
+        }
     ]
 }

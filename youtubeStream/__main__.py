@@ -14,7 +14,6 @@ print(colored("YOUTUBE MUSIC STREAMER ROARING TO LIFE...", "blue"))
 
 actions = colored("play", "green") + "        > play song from url or search\n" \
           + colored("playls", "green") + "     > play a YouTube or local playlist in order\n" \
-          + colored("shuffle", "green") + "     > shuffle a YouTube or local playlist" \
           + colored("makepls", "green") + "     > make a new local playlist\n" \
           + colored("editpls", "green") + "     > edit an existing local playlist" \
           + colored("exit", "green") + "        > exit the player\n"
@@ -32,7 +31,11 @@ sel.register(sys.stdin.fileno(), selectors.EVENT_READ)
 
 songQueue = []
 
-# TODO: Add an actual main method. Right it just shuffles from a playlist.
+def saveJSON():
+    with open("musicData.json", "w") as f:
+        f.write(json.dumps(jason, indent=4))
+
+# TODO: Add an actual main method. Right now it just shuffles from a playlist.
 def main():
     while True:
         print()
@@ -46,13 +49,22 @@ def main():
             local = input("YouTube or local playlist? [Y/l] ").lower()
             if local.startswith("y") or local == "":
                 psUrl = input("Enter the YouTube Playlist URL or hit <Enter> to play saved playlists: ")
+                savedPlaylists = jason["savedYTPLS"]
                 if psUrl != "":
                     songList = tubehelper.getURLsFromPlaylist(psUrl)
-                    random.shuffle(songList)
+                    saved = False
+                    for pls in savedPlaylists:
+                        if pls["url"] == psUrl:
+                            saved = True
+                            break
+                    if not saved:
+                        if not input("Would you like to save this playlist? [Y/n] ").lower() == "n":
+                            name = input("What is the name for this playlist? ")
+                            jason["savedYTPLS"].append({"name": name, "url": psUrl})
+                            saveJSON()
                 else:
                     # We be tryna play music from a saved youtube playlist
                     # Let's show them the options
-                    savedPlaylists = jason["savedYTPLS"]
                     count = 1
                     print("\nSaved Playlists:")
                     for pls in savedPlaylists:
@@ -60,8 +72,17 @@ def main():
                         count += 1
                     print()
                     plsNumber = int(input("Enter the playlist number you want to play: "))
-                    print(colored("Playing YouTube Playlist ", "green") + colored(f"\x1b]8;;{savedPlaylists[plsNumber-1]['url']}\a{savedPlaylists[plsNumber-1]['name']}\x1b]8;;\a", color="blue"))
                     songList = tubehelper.getURLsFromPlaylist(savedPlaylists[plsNumber - 1]["url"])
+                    
+                shfl = False
+                if input("Would you like to play or shuffle? [P/s]: ").lower().startswith("s"):
+                    random.shuffle(songList)
+                    shfl = True
+
+                if not psUrl:
+                    print(colored(f"{'Shuffling' if shfl else 'Playing'} YouTube Playlist ", "green") + colored(f"\x1b]8;;{savedPlaylists[plsNumber-1]['url']}\a{savedPlaylists[plsNumber-1]['name']}\x1b]8;;\a", color="blue"))
+                else:
+                    print(colored(f"{'Shuffling' if shfl else 'Playing'} ", "green") + colored(f"\x1b]8;;{psUrl}\aYoutube Playlist\x1b]8;;\a", color="blue") + "...")
 
                 # We be playin' a YouTube PlayList
                 while len(songList) > 0 or len(songQueue) > 0:
@@ -75,10 +96,6 @@ def main():
                         currentSong = songList[0]
                         playStream(currentSong)
                         songList.remove(currentSong)
-
-def saveJSON():
-    with open("musicData.json", "w") as f:
-        f.write(json.dumps(jason, indent=4))
 
 def getPafyVideo(url):
     try:
