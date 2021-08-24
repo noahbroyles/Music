@@ -11,11 +11,10 @@ from termcolor import colored
 
 print(colored("YOUTUBE MUSIC STREAMER ROARING TO LIFE...", "blue"))
 
-
 actions = colored("play", "green") + "        > play song from url or search\n" \
           + colored("playls", "green") + "     > play a YouTube or local playlist in order\n" \
           + colored("makepls", "green") + "     > make a new local playlist\n" \
-          + colored("editpls", "green") + "     > edit an existing local playlist" \
+          + colored("editpls", "green") + "     > edit an existing local playlist\n" \
           + colored("exit", "green") + "        > exit the player\n"
 
 # Whip out our JSON data
@@ -31,19 +30,24 @@ sel.register(sys.stdin.fileno(), selectors.EVENT_READ)
 
 songQueue = []
 
+
 def saveJSON():
     with open("musicData.json", "w") as f:
         f.write(json.dumps(jason, indent=4))
+
 
 # TODO: Add an actual main method. Right now it just shuffles from a playlist.
 def main():
     while True:
         print()
         print('What would you like to do? ("' + colored('show', "yellow") + '" to show commands): ')
-        action = input("youtube-streamer ~ $ ")
+        action = input("youtube-streamer ~ $ ").lower().strip()
 
         if action == "show":
             print("\n" + actions)
+
+        elif action == "exit":
+            sys.exit()
 
         elif action == "playls":
             local = input("YouTube or local playlist? [Y/l] ").lower()
@@ -73,16 +77,19 @@ def main():
                     print()
                     plsNumber = int(input("Enter the playlist number you want to play: "))
                     songList = tubehelper.getURLsFromPlaylist(savedPlaylists[plsNumber - 1]["url"])
-                    
+
                 shfl = False
                 if input("Would you like to play or shuffle? [P/s]: ").lower().startswith("s"):
                     random.shuffle(songList)
                     shfl = True
 
                 if not psUrl:
-                    print(colored(f"{'Shuffling' if shfl else 'Playing'} YouTube Playlist ", "green") + colored(f"\x1b]8;;{savedPlaylists[plsNumber-1]['url']}\a{savedPlaylists[plsNumber-1]['name']}\x1b]8;;\a", color="blue"))
+                    print(colored(f"{'Shuffling' if shfl else 'Playing'} YouTube Playlist ", "green") + colored(
+                        f"\x1b]8;;{savedPlaylists[plsNumber - 1]['url']}\a{savedPlaylists[plsNumber - 1]['name']}\x1b]8;;\a",
+                        color="blue"))
                 else:
-                    print(colored(f"{'Shuffling' if shfl else 'Playing'} ", "green") + colored(f"\x1b]8;;{psUrl}\aYoutube Playlist\x1b]8;;\a", color="blue") + "...")
+                    print(colored(f"{'Shuffling' if shfl else 'Playing'} ", "green") + colored(
+                        f"\x1b]8;;{psUrl}\aYoutube Playlist\x1b]8;;\a", color="blue") + "...")
 
                 # We be playin' a YouTube PlayList
                 while len(songList) > 0 or len(songQueue) > 0:
@@ -97,12 +104,15 @@ def main():
                         playStream(currentSong)
                         songList.remove(currentSong)
 
+
 def getPafyVideo(url):
     try:
         video = pafy.new(url)
         return video
     except OSError:
-        print(colored(f"{url} is a song only meant for YouTube Music Premium users, or is otherwise unavailable. Sorry buddy.", "red"))
+        print(colored(
+            f"{url} is a song only meant for YouTube Music Premium users, or is otherwise unavailable. Sorry buddy.",
+            "red"))
         return 0
 
 
@@ -139,7 +149,9 @@ def playStream(url):
     video = getPafyVideo(url)
     if not video:
         return
-    print(colored("Playing ", color="green") + colored(f"\x1b]8;;{url}\a{video.title}\x1b]8;;\a ({tubehelper.getVideoID(url)})", color="blue") + " --- " + colored(songTime(video.length), "blue"))
+    print(colored("Playing ", color="green") + colored(
+        f"\x1b]8;;{url}\a{video.title}\x1b]8;;\a ({tubehelper.getVideoID(url)})", color="blue") + " --- " + colored(
+        songTime(video.length), "blue"))
     best = video.getbest()
 
     media = instance.media_new(best.url)
@@ -199,6 +211,7 @@ def playStream(url):
     except EOFError:
         player.stop()
         sys.exit()
+
 
 if __name__ == "__main__":
     main()
