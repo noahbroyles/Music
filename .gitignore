@@ -6,3 +6,4 @@ __pycache__
 *.pls
 geckodriver.log
 .vscode
+/myFreeMp3/SearchAPI.json
