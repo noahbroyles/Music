@@ -8,7 +8,7 @@ lxml==4.6.2
 requests==2.23.0
 soupsieve==2.0
 termcolor==1.1.0
-urllib3==1.25.9
+urllib3==1.26.5
 python-vlc==3.0.7110
 selenium~=3.141.0
 eyeD3~=0.9.5
