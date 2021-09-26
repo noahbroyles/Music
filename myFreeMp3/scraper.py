@@ -1,6 +1,5 @@
 # Scrapes the myfreemp3 site with selenium to download Mp3 songs.
-# Last confirmed working: 8/24/2021 @ 7:20 PM
-
+# Last confirmed working: 9/26/2021 @ 6:46 PM
 import time
 import requests
 from os import path
@@ -26,7 +25,7 @@ def CamelCase(string):
     return " ".join(word.capitalize() for word in string.split(" "))
 
 
-def downloadSong(songTitle: str):
+def downloadSong(songTitle: str, save_directory=None):
     # Create browser
     homeDir = path.expanduser('~')
     if browserName == 'firefox':
@@ -67,8 +66,12 @@ def downloadSong(songTitle: str):
 
     # Download the song and save it
     r = requests.get(downloadLink)
-    with open(f'{CamelCase(songTitle)}.mp3', 'wb') as f:
-        f.write(r.content)
+    if not save_directory:
+        with open(f'{CamelCase(songTitle)}.mp3', 'wb') as f:
+            f.write(r.content)
+    else:
+        with open(f'{save_directory}/{CamelCase(songTitle)}.mp3', 'wb') as f:
+            f.write(r.content)
 
 
 # Main for testing
