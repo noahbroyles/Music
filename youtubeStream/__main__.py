@@ -55,7 +55,7 @@ def main():
                 plsurl = input("Enter the YouTube Playlist URL or hit <Enter> to play saved playlists: ")
                 saved_playlists = music_data["youtubePlaylists"]
                 if plsurl != "":
-                    songList = tubehelper.getURLsFromPlaylist(plsurl)
+                    songList = tubehelper.get_urls_from_playlist(plsurl)
                     saved = False
                     for pls in saved_playlists:
                         if pls["url"] == plsurl:
@@ -76,7 +76,7 @@ def main():
                         count += 1
                     print()
                     pls_number = int(input("Enter the playlist number you want to play: "))
-                    songList = tubehelper.getURLsFromPlaylist(saved_playlists[pls_number - 1]["url"])
+                    songList = tubehelper.get_urls_from_playlist(saved_playlists[pls_number - 1]["url"])
 
                 shuffle = False
                 if input("Would you like to play or shuffle? [P/s]: ").lower().startswith("s"):
@@ -126,15 +126,15 @@ def get_song_time(seconds):
     return str(minutes) + ":" + str(s)
 
 
-def queue(url=None, songTitle=None):
+def queue(url=None, song_title=None):
     if url:
         song_queue.append(url)
         song = get_pafy_video(url)
         if not song:
             return
         print(colored(f"Queued {colored(song.title, 'blue')}", "green"))
-    if songTitle:
-        url = tubehelper.URLFromQuery(songTitle)
+    if song_title:
+        url = tubehelper.url_from_query(song_title)
         if url is not None:
             song_queue.append(url)
             song = pafy.new(url)
@@ -142,7 +142,7 @@ def queue(url=None, songTitle=None):
                 return
             print(colored(f"Queued {colored(song.title, 'blue')}", "green"))
         else:
-            print(colored(f"{songTitle} could not be found. Try again with a different search term.", "red"))
+            print(colored(f"{song_title} could not be found. Try again with a different search term.", "red"))
 
 
 def playStream(url):
@@ -150,7 +150,7 @@ def playStream(url):
     if not video:
         return
     print(colored("Playing ", color="green") + colored(
-        f"\x1b]8;;{url}\a{video.title}\x1b]8;;\a ({tubehelper.getVideoID(url)})", color="blue") + " --- " + colored(
+        f"\x1b]8;;{url}\a{video.title}\x1b]8;;\a ({tubehelper.get_video_ID(url)})", color="blue") + " --- " + colored(
         get_song_time(video.length), "blue"))
     best = video.getbest()
 
@@ -198,7 +198,7 @@ def playStream(url):
                     # I guess it's a URL my dude
                     queue(url=song_to_queue)
                 else:
-                    queue(songTitle=song_to_queue)
+                    queue(song_title=song_to_queue)
 
             elif do == "stop" or do == "skip":
                 player.stop()
