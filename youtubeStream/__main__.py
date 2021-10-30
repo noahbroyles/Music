@@ -19,7 +19,7 @@ actions = colored("play", "green") + "        > play song from url or search\n" 
 
 # Whip out our JSON data
 with open("musicData.json", "r") as f:
-    jason = json.load(f)
+    music_data = json.load(f)
 
 # creating vlc media player
 instance = vlc.Instance("--no-video")
@@ -28,12 +28,12 @@ player = instance.media_player_new()
 sel = selectors.DefaultSelector()
 sel.register(sys.stdin.fileno(), selectors.EVENT_READ)
 
-songQueue = []
+song_queue = []
 
 
-def saveJSON():
+def save_JSON():
     with open("musicData.json", "w") as f:
-        f.write(json.dumps(jason, indent=4))
+        f.write(json.dumps(music_data, indent=4))
 
 
 # TODO: Add an actual main method. Right now it just shuffles from a playlist.
@@ -52,52 +52,52 @@ def main():
         elif action == "playls":
             local = input("YouTube or local playlist? [Y/l] ").lower()
             if local.startswith("y") or local == "":
-                psUrl = input("Enter the YouTube Playlist URL or hit <Enter> to play saved playlists: ")
-                savedPlaylists = jason["savedYTPLS"]
-                if psUrl != "":
-                    songList = tubehelper.getURLsFromPlaylist(psUrl)
+                plsurl = input("Enter the YouTube Playlist URL or hit <Enter> to play saved playlists: ")
+                saved_playlists = music_data["youtubePlaylists"]
+                if plsurl != "":
+                    songList = tubehelper.getURLsFromPlaylist(plsurl)
                     saved = False
-                    for pls in savedPlaylists:
-                        if pls["url"] == psUrl:
+                    for pls in saved_playlists:
+                        if pls["url"] == plsurl:
                             saved = True
                             break
                     if not saved:
                         if not input("Would you like to save this playlist? [Y/n] ").lower() == "n":
                             name = input("What is the name for this playlist? ")
-                            jason["savedYTPLS"].append({"name": name, "url": psUrl})
-                            saveJSON()
+                            music_data["youtubePlaylists"].append({"name": name, "url": plsurl})
+                            save_JSON()
                 else:
                     # We be tryna play music from a saved youtube playlist
                     # Let's show them the options
                     count = 1
                     print("\nSaved Playlists:")
-                    for pls in savedPlaylists:
+                    for pls in saved_playlists:
                         print(colored(f"[{count}] ", "green") + colored(pls["name"], "blue"))
                         count += 1
                     print()
-                    plsNumber = int(input("Enter the playlist number you want to play: "))
-                    songList = tubehelper.getURLsFromPlaylist(savedPlaylists[plsNumber - 1]["url"])
+                    pls_number = int(input("Enter the playlist number you want to play: "))
+                    songList = tubehelper.getURLsFromPlaylist(saved_playlists[pls_number - 1]["url"])
 
-                shfl = False
+                shuffle = False
                 if input("Would you like to play or shuffle? [P/s]: ").lower().startswith("s"):
                     random.shuffle(songList)
-                    shfl = True
+                    shuffle = True
 
-                if not psUrl:
-                    print(colored(f"{'Shuffling' if shfl else 'Playing'} YouTube Playlist ", "green") + colored(
-                        f"\x1b]8;;{savedPlaylists[plsNumber - 1]['url']}\a{savedPlaylists[plsNumber - 1]['name']}\x1b]8;;\a",
+                if not plsurl:
+                    print(colored(f"{'Shuffling' if shuffle else 'Playing'} YouTube Playlist ", "green") + colored(
+                        f"\x1b]8;;{saved_playlists[pls_number - 1]['url']}\a{saved_playlists[pls_number - 1]['name']}\x1b]8;;\a",
                         color="blue"))
                 else:
-                    print(colored(f"{'Shuffling' if shfl else 'Playing'} ", "green") + colored(
-                        f"\x1b]8;;{psUrl}\aYoutube Playlist\x1b]8;;\a", color="blue") + "...")
+                    print(colored(f"{'Shuffling' if shuffle else 'Playing'} ", "green") + colored(
+                        f"\x1b]8;;{plsurl}\aYoutube Playlist\x1b]8;;\a", color="blue") + "...")
 
                 # We be playin' a YouTube PlayList
-                while len(songList) > 0 or len(songQueue) > 0:
+                while len(songList) > 0 or len(song_queue) > 0:
                     # If there are songs in the queue, play them first.
-                    if songQueue:
-                        currentSong = songQueue[0]
+                    if song_queue:
+                        currentSong = song_queue[0]
                         playStream(currentSong)
-                        songQueue.remove(currentSong)
+                        song_queue.remove(currentSong)
                     else:
                         # Otherwise, play from the normal order
                         currentSong = songList[0]
@@ -105,7 +105,7 @@ def main():
                         songList.remove(currentSong)
 
 
-def getPafyVideo(url):
+def get_pafy_video(url):
     try:
         video = pafy.new(url)
         return video
@@ -116,7 +116,7 @@ def getPafyVideo(url):
         return 0
 
 
-def songTime(seconds):
+def get_song_time(seconds):
     bal = seconds
     minutes = int(str((seconds / 60)).split('.')[0])
     bal -= (minutes * 60)
@@ -128,15 +128,15 @@ def songTime(seconds):
 
 def queue(url=None, songTitle=None):
     if url:
-        songQueue.append(url)
-        song = getPafyVideo(url)
+        song_queue.append(url)
+        song = get_pafy_video(url)
         if not song:
             return
         print(colored(f"Queued {colored(song.title, 'blue')}", "green"))
     if songTitle:
         url = tubehelper.URLFromQuery(songTitle)
         if url is not None:
-            songQueue.append(url)
+            song_queue.append(url)
             song = pafy.new(url)
             if not song:
                 return
@@ -146,12 +146,12 @@ def queue(url=None, songTitle=None):
 
 
 def playStream(url):
-    video = getPafyVideo(url)
+    video = get_pafy_video(url)
     if not video:
         return
     print(colored("Playing ", color="green") + colored(
         f"\x1b]8;;{url}\a{video.title}\x1b]8;;\a ({tubehelper.getVideoID(url)})", color="blue") + " --- " + colored(
-        songTime(video.length), "blue"))
+        get_song_time(video.length), "blue"))
     best = video.getbest()
 
     media = instance.media_new(best.url)
@@ -175,7 +175,7 @@ def playStream(url):
             do = input().lower().strip()
 
             if do == "time":
-                print(colored(songTime(player.get_time() / 1000), "blue"))
+                print(colored(get_song_time(player.get_time() / 1000), "blue"))
 
             elif do == "pause":
                 player.pause()
@@ -184,20 +184,21 @@ def playStream(url):
                 player.play()
 
             elif do.startswith("queue") or do.startswith("q"):
+                song_to_queue = ''
                 if " " not in do:
                     # Gotta ask 'em what they wanna hear
                     try:
-                        songToQueue = input("Enter the name or URL for the song you wish to queue: ").strip()
+                        song_to_queue = input("Enter the name or URL for the song you wish to queue: ").strip()
                     except KeyboardInterrupt:
                         pass
                 else:
                     # They told us what to queue already
-                    songToQueue = " ".join(do.split(" ")[1:])
-                if songToQueue.strip().startswith("https://"):
+                    song_to_queue = " ".join(do.split(" ")[1:])
+                if song_to_queue.strip().startswith("https://"):
                     # I guess it's a URL my dude
-                    queue(url=songToQueue)
+                    queue(url=song_to_queue)
                 else:
-                    queue(songTitle=songToQueue)
+                    queue(songTitle=song_to_queue)
 
             elif do == "stop" or do == "skip":
                 player.stop()
