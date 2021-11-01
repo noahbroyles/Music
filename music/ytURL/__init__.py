@@ -1,6 +1,8 @@
-from cyoutube_search import YoutubeSearch
-import requests
 import sys
+import requests
+
+from cyoutube_search import YoutubeSearch
+
 
 
 def urlFromQuery(query):
