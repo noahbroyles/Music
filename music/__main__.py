@@ -11,7 +11,6 @@ import youtube_dl
 from eyed3 import id3
 from mutagen.mp3 import MP3
 from termcolor import colored
-from ytURL import urlFromQuery
 from youtube_music_search import search_youtube_music
 
 
