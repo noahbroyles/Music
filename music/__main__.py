@@ -12,6 +12,7 @@ from eyed3 import id3
 from mutagen.mp3 import MP3
 from termcolor import colored
 from ytURL import urlFromQuery
+from youtube_music_search import search_youtube_music
 
 
 MUSIC_DIRECTORY = os.curdir
@@ -149,7 +150,7 @@ def download(url, play=False):
 
 
 def searchForSong(search):
-    url = urlFromQuery(search)
+    url = search_youtube_music(search)[0].videoURL
     if url is not None:
         print("Your URL is:", colored(url, "blue"))
         if (input("Would you like to download " + colored(search, "green") + "? ")).lower()[0] == 'y':
