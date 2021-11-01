@@ -1,18 +1,20 @@
 import os
 import re
 import sys
-import random
 import vlc
-from ytURL import urlFromQuery
+import math
+import random
 import selectors
 import youtube_dl
-import math
-from termcolor import colored
-from mutagen.mp3 import MP3
+
+
 from eyed3 import id3
+from mutagen.mp3 import MP3
+from termcolor import colored
+from ytURL import urlFromQuery
+
 
 MUSIC_DIRECTORY = os.curdir
-
 actions = colored("play", "green") + "        > play downloaded songs\n" \
           + colored("shuffle", "green") + "     > shuffle downloaded songs\n" \
           + colored("download", "green") + "    > download mp3 from a YouTube URL\n" \
