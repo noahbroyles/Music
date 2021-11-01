@@ -12,5 +12,8 @@
             "name": "Real Classical Music",
             "url": "https://www.youtube.com/playlist?list=PLHNntV_whvgoyzGeMT4YK61ihyQUl-QaZ"
         }
+    ],
+    "localPlaylists": [
+        {"name": "Beats", "songs": ["https://youtu.be/3MrY_BwLChk", "https://youtu.be/XGXZOQ8yTU4"]}
     ]
 }

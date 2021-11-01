@@ -91,19 +91,49 @@ def main():
                     print(colored(f"{'Shuffling' if shuffle else 'Playing'} ", "green") + colored(
                         f"\x1b]8;;{plsurl}\aYoutube Playlist\x1b]8;;\a", color="blue") + "...")
 
-                # We be playin' a YouTube PlayList
-                while len(songList) > 0 or len(song_queue) > 0:
-                    # If there are songs in the queue, play them first.
-                    if song_queue:
-                        currentSong = song_queue[0]
-                        playStream(currentSong)
-                        song_queue.remove(currentSong)
-                    else:
-                        # Otherwise, play from the normal order
-                        currentSong = songList[0]
-                        playStream(currentSong)
-                        songList.remove(currentSong)
+            elif local == "l":
+                playlist = input("Enter the local playlist name or hit <Enter> to play saved playlists: ")
+                saved_playlists = music_data["localPlaylists"]
 
+                if playlist != "":
+                    for pls in saved_playlists:
+                        if pls["name"].lower() == playlist.lower():
+                            playlist = pls["name"]
+                            songList = pls["songs"]
+                            break
+                else:
+                    # We be tryna play music from a saved local playlist
+                    # Let's show them the options
+                    count = 1
+                    print("\nSaved Playlists:")
+                    for pls in saved_playlists:
+                        print(colored(f"[{count}] ", "green") + colored(pls["name"], "blue"))
+                        count += 1
+                    print()
+                    pls_number = int(input("Enter the playlist number you want to play: "))
+                    playlist = saved_playlists[pls_number - 1]["name"]
+                    songList = saved_playlists[pls_number - 1]["songs"]
+
+                shuffle = False
+                if input("Would you like to play or shuffle? [P/s]: ").lower().startswith("s"):
+                    random.shuffle(songList)
+                    shuffle = True
+                
+                print(colored(f"{'Shuffling' if shuffle else 'Playing'} ", "green") + colored(playlist, color="blue") + "...")
+
+            # We be playin' ourselves a playList
+            while len(songList) > 0 or len(song_queue) > 0:
+                # If there are songs in the queue, play them first.
+                if song_queue:
+                    currentSong = song_queue[0]
+                    playStream(currentSong)
+                    song_queue.remove(currentSong)
+                else:
+                    # Otherwise, play from the normal order
+                    currentSong = songList[0]
+                    playStream(currentSong)
+                    songList.remove(currentSong)
+                    
 
 def get_pafy_video(url):
     try:
