@@ -68,9 +68,4 @@ As you go through the songs in the playlist, enter a new song number to *replace
   
 # Troubleshooting:
 ![too bad.](https://github.com/noahbroyles/Music/blob/master/images/too-fn-bad.gif?raw=true)  
-_Read the da*n code and make a Pull Request._ Thanks.
- 
- 
-  
- 
-  
+_Read the damn code and make a Pull Request._ Thanks.
