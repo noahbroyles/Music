@@ -1,7 +1,7 @@
 mutagen~=1.44.0
 youtube-dl==2021.3.14
 beautifulsoup4==4.8.2
-certifi==2019.11.28
+certifi==2023.7.22
 chardet==3.0.4
 idna==2.9
 lxml==4.9.1
