@@ -3,7 +3,7 @@ youtube-dl==2021.3.14
 beautifulsoup4==4.8.2
 certifi==2019.11.28
 chardet==3.0.4
-idna==2.9
+idna==3.7
 lxml==4.9.1
 requests==2.23.0
 soupsieve==2.0
