@@ -1,7 +1,7 @@
 # AUTHOR: Noah Broyles
 # DESCRIPTION: Uses the YouTube Music search API to find videoURLs, titles, artists, and thumbnail images for any songs searched for. 
 #
-# Last Working: Oct 25, 2021
+# Last Working: May 22, 2024
 
 import re
 import json
